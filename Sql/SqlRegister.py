@@ -16,7 +16,6 @@ class SqlRegister:
     def record_exist(self, name):
 
         sql = "SELECT username FROM users WHERE users.username LIKE %s"
-        # sql = "SELECT COUNT(username) FROM users WHERE username LIKE %s AND password LIKE %s"
         adr = (name,)
         self.mycursor.execute(sql,adr)
 

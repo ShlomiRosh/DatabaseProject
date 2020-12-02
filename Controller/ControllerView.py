@@ -1,8 +1,5 @@
 import tkinter as tk
 from View import StartPage as sp
-from View import RegisterPage as rp
-from View import SearchPage as sep
-from View import UserPage as up
 
 WIN_SIZE = '750x500+50+20'
 TITLE = 'TripleA'
