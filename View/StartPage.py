@@ -4,7 +4,7 @@ import tkinter as tk
 from View import RegisterPage as rp
 from View import SearchPage as sep
 from View import UserPage as up
-from Sql import SqlConnection as sql
+from Controller import LoginCotroller as lc
 
 FONT_OUTPUT = ("Ariel", 10)
 registered = False
@@ -55,23 +55,37 @@ class StartPage(tk.Frame):
 
         self.register_img = PhotoImage(file='..\Pic\\bregister.png')
         register = tk.Button(self, image=self.register_img, borderwidth=0, background='black'
-                             , command=lambda: controller.show_frame(rp.RegisterPage))
+                             , command=lambda: self.register_button(controller))
         register.place(bordermode=OUTSIDE, x=500, y=350)
 
         self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
         guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black'
-                          , command=lambda: controller.show_frame(sep.SearchPage))
+                          , command=lambda: self.as_guest_button(controller))
         guest.place(bordermode=OUTSIDE, x=500, y=410)
+
+
+    def as_guest_button(self, controller):
+
+        if sep.SearchPage not in controller.frames:
+            controller.add_frame(sep.SearchPage)
+        controller.show_frame(sep.SearchPage)
+
+
+    def register_button(self, controller):
+
+        if rp.RegisterPage not in controller.frames:
+            controller.add_frame(rp.RegisterPage)
+        controller.show_frame(rp.RegisterPage)
 
 
     def login_button(self, controller):
 
         if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 \
-                or not sql.has_record(self.ename.get(), self.epassword.get()):
+                or not lc.LoginController(self.ename.get(), self.epassword.get()).has_user():
 
-            invalid = tk.Label(self, text='Invalid username or password.'
+            self.invalid = tk.Label(self, text='Invalid username or password.'
                                , bg='black', bd=0, fg='red', font=FONT_OUTPUT)
-            invalid.place(bordermode=OUTSIDE, x=305, y=65)
+            self.invalid.place(bordermode=OUTSIDE, x=305, y=65)
 
         else:
 
@@ -79,8 +93,22 @@ class StartPage(tk.Frame):
             registered = True
             username = self.ename.get()
             password = self.epassword.get()
+            self.clean_entrys()
+
+            if up.UserPage in controller.frames:
+                controller.remove_frame(up.UserPage)
+            controller.add_frame(up.UserPage)
             controller.show_frame(up.UserPage)
 
+
+    def clean_entrys(self):
+
+        self.ename.delete(0, 'end')
+        self.epassword.delete(0, 'end')
+        try:
+            self.invalid.destroy()
+        except:
+            pass
 
 
 

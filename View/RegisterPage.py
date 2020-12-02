@@ -6,7 +6,7 @@ import string
 from View import StartPage as st
 from View import OverViewButtons as ovb
 from View import UserPage as up
-from Sql import SqlConnection as sc
+from Controller import RegisterController as rc
 
 FONT_CREATE = ("Ariel", 16, "bold")
 FONT_OUTPUT = ("Ariel", 9)
@@ -29,8 +29,8 @@ class RegisterPage(tk.Frame):
 
         create_account = tk.Label(self, text='Create Your Account:', bg='black', bd=0, fg='white', font=FONT_CREATE)
         create_account.place(bordermode=OUTSIDE, x=450, y=15)
-        ###### TO CHECK
-        num_of_registered_users = sc.total_users()
+
+        num_of_registered_users = rc.num_total_users()
         total = tk.Label(self, text='Total of ' + str(num_of_registered_users) + ' registered users'
                          , bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         total.place(bordermode=OUTSIDE, x=480, y=40)
@@ -90,7 +90,7 @@ class RegisterPage(tk.Frame):
 
         if len(self.ename.get()) < 6:
             self.invalid_notes(510, 120, 'Username must be at\n''least 6 characters long.')
-        elif sc.is_exists_user(self.ename.get()):
+        elif rc.is_user_exists(self.ename.get()):
             self.handle_existing_username()
         elif len(self.epassword.get()) < 6:
             self.invalid_notes(510, 170, 'Password must be at\n''least 6 characters long.')
@@ -101,7 +101,17 @@ class RegisterPage(tk.Frame):
         elif not re.search(regex, self.eemail.get()):
             self.invalid_notes(510, 320, 'Invalid email.\n')
         else:
+            st.registered = True
+            st.password = self.epassword.get()
+            st.username = self.ename.get()
+            rc.insert_user(self.ename.get(), self.epassword.get(), self.efirst_name.get(),
+                           self.elast_name.get(), self.eemail.get())
+
+            if up.UserPage in controller.frames:
+                controller.remove_frame(up.UserPage)
+            controller.add_frame(up.UserPage)
             controller.show_frame(up.UserPage)
+            self.clean_entrys()
 
 
     def invalid_notes(self, p_x, p_y, message):
@@ -116,14 +126,22 @@ class RegisterPage(tk.Frame):
 
         suggestion1 = suggestion2 = self.ename.get()
 
-        while sc.is_exists_user(suggestion1):
+        while rc.is_user_exists(suggestion1):
             suggestion1 = suggestion1 + random.choice(string.ascii_letters)
-
-        while sc.is_exists_user(suggestion2):
+        while rc.is_user_exists(suggestion2):
             suggestion2 = suggestion2 + str(random.randint(0, 9999))
 
         self.invalid_notes(510, 120, 'Username Taken try:\n' + suggestion1 + ' or ' + suggestion2)
 
 
-# def tryd():
-#     print(st.password + '   ' + st.username + '     ' + str(st.registered))
+    def clean_entrys(self):
+
+        self.ename.delete(0, 'end')
+        self.epassword.delete(0, 'end')
+        self.efirst_name.delete(0, 'end')
+        self.elast_name.delete(0, 'end')
+        self.eemail.delete(0, 'end')
+        try:
+            self.invalid.destroy()
+        except:
+            pass

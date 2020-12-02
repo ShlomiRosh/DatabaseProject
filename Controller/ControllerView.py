@@ -12,24 +12,33 @@ class TripleAapp(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        container = tk.Frame(self)
-        container.pack(side = 'top', fill = 'both', expand = True)
+        self.container = tk.Frame(self)
+        self.container.pack(side = 'top', fill = 'both', expand = True)
         #container.place(width=750, height=550)
 
         self.frames = {}
-        # For every page that you want to show you need to add it hear
-        for f in (sp.StartPage, rp.RegisterPage, sep.SearchPage, up.UserPage):
-
-            frame = f(container, self)
-            self.frames[f] = frame
-            frame.place(width=750,height=550)
-
+        frame = sp.StartPage(self.container, self)
+        self.frames[sp.StartPage] = frame
+        frame.place(width=750, height=550)
         self.show_frame(sp.StartPage)
+
 
     def show_frame(self, con):
 
         frame = self.frames[con]
         frame.tkraise()
+
+
+    def add_frame(self, con):
+
+        frame = con(self.container, self)
+        self.frames[con] = frame
+        frame.place(width=750, height=550)
+
+
+    def remove_frame(self, con):
+
+        self.frames.pop(con)
 
 
 

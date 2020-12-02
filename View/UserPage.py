@@ -1,75 +1,107 @@
 from tkinter import *
-from tkinter import ttk
 import tkinter as tk
-from View import RegisterPage as rp
 from View import SearchPage as sp
-from Sql import SqlConnection as sql
+from View import StartPage as st
+from Controller import UserController as uc
+
+FONT_OUTPUT = ("Ariel", 10)
 
 
 class UserPage(tk.Frame):
 
     def __init__(self, parent, controller):
-        pass
+
         tk.Frame.__init__(self, parent)
         self.background()
-        self.input()
+        self.input_output()
         self.buttons(controller)
 
 
     def background(self):
 
-        panel = tk.Label(self, bg='blue')
-        panel.place(bordermode=OUTSIDE, width=750, height=500)
+        self.img = tk.PhotoImage(file='..\Pic\\userpagePic1.png')
+        panel = tk.Label(self, image=self.img)
+        panel.place(bordermode=OUTSIDE)
 
 
-    def input(self):
-        pass
-        # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        # namel.place(bordermode=OUTSIDE, x=305, y=15)
-        # self.ename = Entry(self)
-        # self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
-        #
-        # passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        # passwordl.place(bordermode=OUTSIDE, x=465, y=15)
-        # self.epassword = Entry(self)
-        # self.epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
+    def input_output(self):
+
+        user = uc.UserController(st.username).get_user()
+
+        str1 = 'First Name: ' + user.first_name
+        first_namel = tk.Label(self, text=str1, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        first_namel.place(bordermode=OUTSIDE, x=50, y=225)
+
+        str2 = 'Last Name: ' + user.last_name
+        last_namel = tk.Label(self, text=str2, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        last_namel.place(bordermode=OUTSIDE, x=50, y=255)
+
+        str3 = 'Username: ' + user.username
+        usernamel = tk.Label(self, text=str3, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        usernamel.place(bordermode=OUTSIDE, x=50, y=285)
+
+        str4 = 'Email: ' + user.email
+        emaill = tk.Label(self, text=str4, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        emaill.place(bordermode=OUTSIDE, x=50, y=315)
 
 
     def buttons(self, controller):
-        pass
-        # self.b1_img = PhotoImage(file='..\Pic\\logo.png')
-        # b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'
-        #                 , command=lambda : controller.show_frame(StartPage))
-        # b1.place(bordermode=OUTSIDE, x=20, y=20)
-        #
-        # self.login_img = PhotoImage(file='..\Pic\\blogin.png')
-        # login = tk.Button(self, image=self.login_img, borderwidth=0, background='black'
-        #                   , command = lambda: self.login_button(controller))
-        # login.place(bordermode=OUTSIDE, x=625, y=30)
-        #
-        # self.register_img = PhotoImage(file='..\Pic\\bregister.png')
-        # register = tk.Button(self, image=self.register_img, borderwidth=0, background='black')
-        # register.place(bordermode=OUTSIDE, x=500, y=350)
-        #
-        # self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
-        # guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black')
-        # guest.place(bordermode=OUTSIDE, x=500, y=410)
+
+        self.search_img = PhotoImage(file='..\Pic\\bsearch.png')
+        b1 = tk.Button(self, image=self.search_img, borderwidth=0, background='black'
+                       , command=lambda: self.search_button(controller))
+        b1.place(bordermode=OUTSIDE, x=65, y=370)
+
+        self.logout_img = PhotoImage(file='..\Pic\\blogout.png')
+        register = tk.Button(self, image=self.logout_img, borderwidth=0, background='black'
+                             , command=lambda: self.log_out(controller))
+        register.place(bordermode=OUTSIDE, x=65, y=430)
+
+        self.hide_img = PhotoImage(file='..\Pic\\bhide.png')
+        self.hide_listb = tk.Button(self, image=self.hide_img, borderwidth=0, background='black'
+                                      , command=self.hide_list_box)
+        self.hide_listb.place(bordermode=OUTSIDE, x=515, y=35)
+
+        self.show_img = PhotoImage(file='..\Pic\\bshow.png')
+        self.show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
+                                    , command=self.show_list_box)
+        self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
 
 
-    def login_button(self, controller):
+    def search_button(self, controller):
 
-        # if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 \
-        #         or not sql.has_record(self.ename.get(), self.epassword.get()):
-        #
-        #     invalid = tk.Label(self, text='Invalid username or password.'
-        #                        , bg='black', bd=0, fg='red', font=FONT_OUTPUT)
-        #     invalid.place(bordermode=OUTSIDE, x=305, y=65)
-        #
-        # else:
-        #
-        #     global registered, username, password
-        #     registered = True
-        #     username = self.ename.get()
-        #     password = self.epassword.get()
-        #     #controller.show_frame(sp.....)
-        pass
+        if sp.SearchPage not in controller.frames:
+            controller.add_frame(sp.SearchPage)
+        controller.show_frame(sp.SearchPage)
+
+
+    def log_out(self, controller):
+
+        st.password = ''
+        st.username = ''
+        st.registered = False
+        controller.show_frame(st.StartPage)
+
+
+    def show_list_box(self):
+
+        # TO DO GET DATA FROM DATABASE
+        self.show_listb.place_forget()
+
+        self.listbox = Listbox(self, bg='black', activestyle='dotbox',
+                          font="Helvetica", fg="yellow")
+        self.listbox.place(bordermode=OUTSIDE, x=320, y=100, height=350, width=400)
+        scrollbar = Scrollbar(self.listbox, orient="vertical")
+        scrollbar.config(command=self.listbox.yview)
+        scrollbar.pack(side="right", fill="y")
+        self.listbox.config(yscrollcommand=scrollbar.set)
+
+        self.hide_listb.place(bordermode=OUTSIDE, x=515, y=35)
+
+
+    def hide_list_box(self):
+
+        self.hide_listb.place_forget()
+        self.listbox.place_forget()
+        self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
+
