@@ -1,10 +1,11 @@
 from tkinter import *
 import tkinter as tk
-from View import AutocompleteSearch as acs
-from Controller import SearchController as sc
-autocompleteList = sc.get_locations()
+from View import UserPage as up
 
-class SearchPage(tk.Frame):
+FONT_NOTE = ("Ariel", 10, "bold", "underline")
+
+
+class ResultPage(tk.Frame):
 
     def __init__(self, parent, controller):
         pass
@@ -22,9 +23,9 @@ class SearchPage(tk.Frame):
 
 
     def input(self):
-
-        entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=10, width=50, matchesFunction=acs.matches)
-        entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
+        pass
+        # entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=10, width=50, matchesFunction=acs.matches)
+        # entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
         # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
         # namel.place(bordermode=OUTSIDE, x=305, y=15)
         # self.ename = Entry(self)

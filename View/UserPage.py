@@ -2,10 +2,13 @@ from tkinter import *
 import tkinter as tk
 from View import SearchPage as sp
 from View import StartPage as st
+from View import ResultPage as rp
 from Controller import UserController as uc
+from View import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
-
+FONT_LIST = ("Ariel", 10, "bold", "underline")
+place_id = None
 
 class UserPage(tk.Frame):
 
@@ -19,7 +22,7 @@ class UserPage(tk.Frame):
 
     def background(self):
 
-        self.img = tk.PhotoImage(file='..\Pic\\userpagePic1.png')
+        self.img = tk.PhotoImage(file='..\Pic\\userpagePic2.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
@@ -29,20 +32,20 @@ class UserPage(tk.Frame):
         user = uc.UserController(st.username).get_user()
 
         str1 = 'First Name: ' + user.first_name
-        first_namel = tk.Label(self, text=str1, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        first_namel.place(bordermode=OUTSIDE, x=50, y=225)
+        first_namel = tk.Label(self, text=str1, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+        first_namel.place(bordermode=OUTSIDE, x=35, y=230)
 
         str2 = 'Last Name: ' + user.last_name
-        last_namel = tk.Label(self, text=str2, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        last_namel.place(bordermode=OUTSIDE, x=50, y=255)
+        last_namel = tk.Label(self, text=str2, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+        last_namel.place(bordermode=OUTSIDE, x=35, y=260)
 
         str3 = 'Username: ' + user.username
-        usernamel = tk.Label(self, text=str3, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        usernamel.place(bordermode=OUTSIDE, x=50, y=285)
+        usernamel = tk.Label(self, text=str3, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+        usernamel.place(bordermode=OUTSIDE, x=35, y=290)
 
         str4 = 'Email: ' + user.email
-        emaill = tk.Label(self, text=str4, bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        emaill.place(bordermode=OUTSIDE, x=50, y=315)
+        emaill = tk.Label(self, text=str4, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+        emaill.place(bordermode=OUTSIDE, x=35, y=320)
 
 
     def buttons(self, controller):
@@ -50,12 +53,12 @@ class UserPage(tk.Frame):
         self.search_img = PhotoImage(file='..\Pic\\bsearch.png')
         b1 = tk.Button(self, image=self.search_img, borderwidth=0, background='black'
                        , command=lambda: self.search_button(controller))
-        b1.place(bordermode=OUTSIDE, x=65, y=370)
+        b1.place(bordermode=OUTSIDE, x=55, y=365)
 
         self.logout_img = PhotoImage(file='..\Pic\\blogout.png')
         register = tk.Button(self, image=self.logout_img, borderwidth=0, background='black'
                              , command=lambda: self.log_out(controller))
-        register.place(bordermode=OUTSIDE, x=65, y=430)
+        register.place(bordermode=OUTSIDE, x=55, y=425)
 
         self.hide_img = PhotoImage(file='..\Pic\\bhide.png')
         self.hide_listb = tk.Button(self, image=self.hide_img, borderwidth=0, background='black'
@@ -64,7 +67,7 @@ class UserPage(tk.Frame):
 
         self.show_img = PhotoImage(file='..\Pic\\bshow.png')
         self.show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
-                                    , command=self.show_list_box)
+                                    , command=lambda : self.show_list_box(controller))
         self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
 
 
@@ -83,18 +86,13 @@ class UserPage(tk.Frame):
         controller.show_frame(st.StartPage)
 
 
-    def show_list_box(self):
+    def show_list_box(self, controller):
 
-        # TO DO GET DATA FROM DATABASE
         self.show_listb.place_forget()
-
-        self.listbox = Listbox(self, bg='black', activestyle='dotbox',
-                          font="Helvetica", fg="yellow")
-        self.listbox.place(bordermode=OUTSIDE, x=320, y=100, height=350, width=400)
-        scrollbar = Scrollbar(self.listbox, orient="vertical")
-        scrollbar.config(command=self.listbox.yview)
-        scrollbar.pack(side="right", fill="y")
-        self.listbox.config(yscrollcommand=scrollbar.set)
+        self.create_listbox()
+        self.create_listbox_buttons(controller)
+        # Get list data form the database.
+        self.insert_data_to_listbox()
 
         self.hide_listb.place(bordermode=OUTSIDE, x=515, y=35)
 
@@ -103,5 +101,72 @@ class UserPage(tk.Frame):
 
         self.hide_listb.place_forget()
         self.listbox.place_forget()
+        self.information_itemb.place_forget()
+        self.remove_itemb.place_forget()
         self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
 
+
+    def create_listbox(self):
+
+        self.listbox = Listbox(self, bg='black', activestyle='dotbox',
+                               font=FONT_LIST, fg="yellow")
+        self.listbox.place(bordermode=OUTSIDE, x=320, y=100, height=300, width=400)
+        scrollbar = Scrollbar(self.listbox, orient="vertical")
+        scrollbar.config(command=self.listbox.yview)
+        scrollbar.pack(side="right", fill="y")
+        self.listbox.config(yscrollcommand=scrollbar.set)
+
+
+    def create_listbox_buttons(self, controller):
+
+        self.remove_img = PhotoImage(file='..\Pic\\bremove.png')
+        self.remove_itemb = tk.Button(self, image=self.remove_img, borderwidth=0, background='black'
+                                      , command=self.remove_item)
+        self.remove_itemb.place(bordermode=OUTSIDE, x=525, y=410)
+
+        self.showp_img = PhotoImage(file='..\Pic\\binfo.png')
+        self.information_itemb = tk.Button(self, image=self.showp_img, borderwidth=0, background='black'
+                                      , command=lambda : self.show_info(controller))
+        self.information_itemb.place(bordermode=OUTSIDE, x=310, y=410)
+
+
+    def insert_data_to_listbox(self):
+
+        places = uc.UserController(st.username).get_user_places()
+
+        for item in places:
+
+            self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
+                + item.category.upper() + ' ' + item.sub_category.upper() + ' ' + item.place_name.upper())
+
+
+    def remove_item(self):
+
+        place_to_remove = self.listbox.get(ANCHOR).split(' ')[2].strip() if self.listbox.get(ANCHOR) != '' else None
+        if place_to_remove is None:
+            self.invalid_notes(525, 455, 'Please select place\n''from the list box.')
+        else:
+            uc.UserController(st.username).remove_place(int(place_to_remove))
+            self.listbox.delete(ANCHOR)
+
+
+    def show_info(self, controller):
+
+        global place_id
+
+        place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
+        if place_id is None:
+            self.invalid_notes(310, 455, 'Please select place\n''from the list box.')
+        else:
+            if rp.ResultPage in controller.frames:
+                controller.remove_frame(rp.ResultPage)
+            controller.add_frame(rp.ResultPage)
+            controller.show_frame(rp.ResultPage)
+
+
+    def invalid_notes(self, p_x, p_y, message):
+
+        self.invalid = tk.Label(self, text='Note here!'
+                           , bg='black', bd=0, fg='red', font=FONT_LIST)
+        self.invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
+        ovb.CreateToolTip(self.invalid, text=message)

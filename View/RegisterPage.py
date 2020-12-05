@@ -23,7 +23,7 @@ class RegisterPage(tk.Frame):
 
     def background(self):
 
-        self.img = tk.PhotoImage(file='..\Pic\\‏‏registerPic1.png')
+        self.img = tk.PhotoImage(file='..\Pic\\‏‏registerPic2.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 

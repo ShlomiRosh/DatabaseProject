@@ -30,12 +30,12 @@ class StartPage(tk.Frame):
 
     def input_output(self):
 
-        namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         namel.place(bordermode=OUTSIDE, x=305, y=15)
         self.ename = Entry(self)
         self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
 
-        passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
+        passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         passwordl.place(bordermode=OUTSIDE, x=465, y=15)
         self.epassword = Entry(self)
         self.epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
