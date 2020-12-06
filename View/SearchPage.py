@@ -4,6 +4,7 @@ from View import AutocompleteSearch as acs
 from Controller import SearchController as sc
 autocompleteList = sc.get_locations()
 # arye
+# דיךםצן
 class SearchPage(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -23,7 +24,7 @@ class SearchPage(tk.Frame):
 
     def input(self):
 
-        entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=10, width=50, matchesFunction=acs.matches)
+        entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=8, width=50, matchesFunction=acs.matches)
         entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
         # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
         # namel.place(bordermode=OUTSIDE, x=305, y=15)
@@ -38,7 +39,7 @@ class SearchPage(tk.Frame):
 
     def buttons(self, controller):
         C1 = Checkbutton(self, text="Music",
-                         onvalue=1, offvalue=0, bg='black', fg='blue')
+                         onvalue=1, offvalue=0, bg='grey', fg='blue')
         C1.place(bordermode=OUTSIDE, x=20, y=275)
         # self.b1_img = PhotoImage(file='..\Pic\\logo.png')
         # b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'

@@ -18,7 +18,7 @@ class UserPage(tk.Frame):
         self.background()
         self.input_output()
         self.buttons(controller)
-
+        self.invalid = None
 
     def background(self):
 
@@ -99,6 +99,8 @@ class UserPage(tk.Frame):
 
     def hide_list_box(self):
 
+        if self.invalid is not None:
+            self.invalid.place_forget()
         self.hide_listb.place_forget()
         self.listbox.place_forget()
         self.information_itemb.place_forget()
