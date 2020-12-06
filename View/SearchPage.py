@@ -3,7 +3,7 @@ import tkinter as tk
 from View import AutocompleteSearch as acs
 from Controller import SearchController as sc
 autocompleteList = sc.get_locations()
-
+# arye
 class SearchPage(tk.Frame):
 
     def __init__(self, parent, controller):
