@@ -4,7 +4,7 @@ from View import AutocompleteSearch as acs
 from Controller import SearchController as sc
 autocompleteList = sc.get_locations()
 # arye
-# דיךםצן
+# דיךםצן dddddddddddddddd
 class SearchPage(tk.Frame):
 
     def __init__(self, parent, controller):
