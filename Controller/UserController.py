@@ -29,21 +29,19 @@ class UserController:
 
         if raw_data == 'Error':
             return 'Error Connection'
-
+        
         for place in raw_data:
 
             ins_place = e.Place()
             ins_place.place_id = place[0]
             ins_place.place_name = place[1]
-            ins_place.state = place[2]
-            ins_place.city = place[3]
-            ins_place.address = place[4]
-            ins_place.sub_category = place[5]
-            ins_place.latitude = place[6]
-            ins_place.longitude = place[7]
-            ins_place.link = place[8]
-            ins_place.description = place[9]
-            ins_place.category = place[10]
+            ins_place.address = place[2]
+            ins_place.latitude = place[3]
+            ins_place.longitude = place[4]
+            ins_place.link = place[5]
+            ins_place.description = place[6]
+            ins_place.location_id = place[7]
+            ins_place.sub_category = place[8]
 
             self.places.append(ins_place)
 

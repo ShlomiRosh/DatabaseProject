@@ -11,12 +11,10 @@ class Place:
 
     place_id = 0
     place_name = ''
-    state = ''
-    city = ''
     address = ''
-    sub_category = ''
-    longitude = 0.0
     latitude = 0.0
+    longitude = 0.0
     link = ''
     description = None
-    category = ''
+    location_id = 0
+    sub_category = ''

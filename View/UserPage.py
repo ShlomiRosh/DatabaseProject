@@ -150,13 +150,12 @@ class UserPage(tk.Frame):
     def insert_data_to_listbox(self):
 
         places = uc.UserController(st.username).get_user_places()
-
         if places == 'Error Connection':
             ovb.create_msg(self, 515, 30, 'Error occurred while\n''accessing database.')
         else:
             for item in places:
                 self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
-                    + item.category.upper() + ' ' + item.sub_category.upper() + ' ' + item.place_name.upper())
+                                    + item.place_name.upper())
 
 
     def remove_item(self):

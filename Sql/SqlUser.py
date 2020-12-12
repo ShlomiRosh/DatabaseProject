@@ -25,8 +25,10 @@ class SqlUser:
 
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "SELECT * FROM Places WHERE `Place ID` "" \
-                        ""IN (SELECT `Place ID` FROM `Users Places` WHERE `User Name` = %s)"
+                sql = "SELECT DISTINCT Places.*  FROM Places JOIN `Users Places` USING(`Place ID`) "" \
+                      ""WHERE `Users Places`.`User Name` = %s"
+                #sql = "SELECT * FROM Places WHERE `Place ID` "" \
+                #        ""IN (SELECT `Place ID` FROM `Users Places` WHERE `User Name` = %s)"
                 adr = (self.username,)
                 self.connection.my_cursor.execute(sql, adr)
                 res = self.connection.my_cursor.fetchall()
