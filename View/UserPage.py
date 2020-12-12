@@ -3,7 +3,6 @@ import tkinter as tk
 from View import SearchPage as sp
 from View import StartPage as st
 from View import ResultPage as rp
-from View import AddPlacePage as app
 from Controller import UserController as uc
 from View import OverViewButtons as ovb
 
@@ -72,20 +71,8 @@ class UserPage(tk.Frame):
         self.show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
                                     , command=lambda : self.show_list_box(controller))
         self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
-#####################################################################################################
-
-        self.test = tk.Button(self,text='hi_test', borderwidth=0, background='black'
-                                    , command=lambda: self.test_only(controller))
-        self.test.place(bordermode=OUTSIDE, x=300, y=80)
 
 
-    def test_only(self, controller):
-
-        if app.AddPlacePage not in controller.frames:
-            controller.add_frame(app.AddPlacePage)
-        controller.show_frame(app.AddPlacePage)
-
-####################################################################### TEST ONLY
     def search_button(self, controller):
 
         if sp.SearchPage not in controller.frames:

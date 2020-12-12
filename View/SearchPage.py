@@ -1,7 +1,12 @@
 from tkinter import *
 import tkinter as tk
 from View import AutocompleteSearch as acs
+from View import AddPlacePage as app
 from Controller import SearchController as sc
+
+location_id = None
+sub_cutegory = ''
+
 #autocompleteList = sc.get_locations()
 # arye
 # דיךםצן dddddddddddddddd
@@ -61,7 +66,18 @@ class SearchPage(tk.Frame):
         # self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
         # guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black')
         # guest.place(bordermode=OUTSIDE, x=500, y=410)
+#####################################################################################################
 
+        self.test = tk.Button(self, text='hi_test', borderwidth=0, background='yellow'
+                              , command=lambda: self.test_only(controller))
+        self.test.place(bordermode=OUTSIDE, x=300, y=80)
+
+    def test_only(self, controller):
+        if app.AddPlacePage not in controller.frames:
+            controller.add_frame(app.AddPlacePage)
+        controller.show_frame(app.AddPlacePage)
+
+####################################################################### TEST ONLY
 
     def login_button(self, controller):
 

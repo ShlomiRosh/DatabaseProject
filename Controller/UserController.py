@@ -29,7 +29,7 @@ class UserController:
 
         if raw_data == 'Error':
             return 'Error Connection'
-        
+
         for place in raw_data:
 
             ins_place = e.Place()

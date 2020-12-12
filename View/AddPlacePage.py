@@ -1,14 +1,11 @@
 from tkinter import *
 import tkinter as tk
-from View import RegisterPage as rp
 from View import SearchPage as sep
-from View import UserPage as up
-from Controller import LoginCotroller as lc
+from Controller import AddPlaceController as apc
+from View import OverViewButtons as ovb
 
-FONT_OUTPUT = ("Ariel", 10)
-registered = False
-username = ''
-password = ''
+FONT_OUTPUT = ("Ariel", 10, "underline")
+FONT_TY = ("Ariel", 15, "bold")
 
 class AddPlacePage(tk.Frame):
 
@@ -22,98 +19,106 @@ class AddPlacePage(tk.Frame):
 
     def background(self):
 
-        self.img = tk.PhotoImage(file='..\Pic\\addPlace.png')
+        self.img = tk.PhotoImage(file='..\Pic\\addPlace1.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
-        canvas = tk.Canvas(self, height=500, width=750)
-        canvas.pack()
-        bg_label = canvas.create_image((0, 0), image=self.img, anchor=tk.N + tk.W)
-
-        label_msg = canvas.create_text((410, 120), text="Earth Hour Countdown:", font="MSGothic 50 bold",
-                                       fill="#652828")
 
     def input_output(self):
-        pass
-        # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        # namel.place(bordermode=OUTSIDE, x=305, y=15)
-        # self.ename = Entry(self)
-        # self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
-        #
-        # passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        # passwordl.place(bordermode=OUTSIDE, x=465, y=15)
-        # self.epassword = Entry(self)
-        # self.epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
+
+        places_namel = tk.Label(self, text='Place Name:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        places_namel.place(bordermode=OUTSIDE, x=30, y=30)
+        self.places_namee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.places_namee.place(bordermode=OUTSIDE, x=30, y=50, width=200, height=25)
+
+        addressl = tk.Label(self, text='Place Address:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        addressl.place(bordermode=OUTSIDE, x=30, y=80)
+        self.addresse = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.addresse.place(bordermode=OUTSIDE, x=30, y=100, width=200, height=25)
+
+        latitudel = tk.Label(self, text='Place Latitude:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        latitudel.place(bordermode=OUTSIDE, x=270, y=30)
+        self.latitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.latitudee.place(bordermode=OUTSIDE, x=270, y=50, width=200, height=25)
+
+        longitudel = tk.Label(self, text='Place Longitude:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        longitudel.place(bordermode=OUTSIDE, x=270, y=80)
+        self.longitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.longitudee.place(bordermode=OUTSIDE, x=270, y=100, width=200, height=25)
+
+        linkl = tk.Label(self, text='Link (Optional):', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        linkl.place(bordermode=OUTSIDE, x=510, y=30)
+        self.linke = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.linke.place(bordermode=OUTSIDE, x=510, y=50, width=200, height=25)
+
+        descriptionl = tk.Label(self, text='Description (Optional):', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        descriptionl.place(bordermode=OUTSIDE, x=510, y=80)
+        self.descriptione = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        self.descriptione.place(bordermode=OUTSIDE, x=510, y=100, width=200, height=25)
 
 
     def buttons(self, controller):
-        pass
-        # self.b1_img = PhotoImage(file='..\Pic\\logo.png')
-        # b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'
-        #                 , command=lambda : controller.show_frame(StartPage))
-        # b1.place(bordermode=OUTSIDE, x=20, y=20)
-        #
-        # self.login_img = PhotoImage(file='..\Pic\\blogin.png')
-        # login = tk.Button(self, image=self.login_img, borderwidth=0, background='black'
-        #                   , command = lambda: self.login_button(controller))
-        # login.place(bordermode=OUTSIDE, x=625, y=30)
-        #
-        # self.register_img = PhotoImage(file='..\Pic\\bregister.png')
-        # register = tk.Button(self, image=self.register_img, borderwidth=0, background='black'
-        #                      , command=lambda: self.register_button(controller))
-        # register.place(bordermode=OUTSIDE, x=500, y=350)
-        #
-        # self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
-        # guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black'
-        #                   , command=lambda: self.as_guest_button(controller))
-        # guest.place(bordermode=OUTSIDE, x=500, y=410)
+
+        self.add_img = PhotoImage(file='..\Pic\\badd.png')
+        add = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
+                          , command = lambda: self.add_button(controller))
+        add.place(bordermode=OUTSIDE, x=535, y=150)
+
+        self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
+        back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='white'
+                             , command=lambda: self.go_back_button(controller))
+        back.place(bordermode=OUTSIDE, x=20, y=450)
 
 
-    def as_guest_button(self, controller):
-        pass
-        # if sep.SearchPage not in controller.frames:
-        #     controller.add_frame(sep.SearchPage)
-        # controller.show_frame(sep.SearchPage)
+    def add_button(self, controller):
+
+        try:
+            self.invalid.destroy()
+        except:
+            pass
+
+        pe = apc.place_exists(self.places_namee.get(), self.addresse.get())
+        if pe == 'Error Connection':
+            self.invalid = ovb.create_msg(self, 575, 200, 'Error occurred while\n''accessing database.')
+        elif pe:
+            self.invalid = ovb.create_msg(self, 575, 200, 'Place is already exists.\n')
+        elif len(self.latitudee.get()) == 0:
+            self.invalid = ovb.create_msg(self, 575, 200, 'Latitude cannot be empty.\n')
+        elif len(self.longitudee.get()) == 0:
+            self.invalid = ovb.create_msg(self, 575, 200, 'longitude cannot be empty.\n')
+        else:
+            ip = apc.insert_place(self.places_namee.get(), self.addresse.get(), float(self.longitudee.get()),
+                                  float(self.latitudee.get()), self.descriptione.get(), self.linke.get(),
+                                  sep.sub_cutegory, sep.location_id)
+            if ip == 'Inserted':
+                msg = 'The place was added successfully,\n''thanks for the cooperation.'
+                thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
+                thanks.place(bordermode=OUTSIDE, x=40, y=150)
+                self.clean_entrys()
+            #self.go_back_button(controller)
 
 
-    def register_button(self, controller):
-        pass
-        # if rp.RegisterPage not in controller.frames:
-        #     controller.add_frame(rp.RegisterPage)
-        # controller.show_frame(rp.RegisterPage)
+    def go_back_button(self, controller):
 
-
-    def login_button(self, controller):
-        pass
-        # if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 \
-        #         or not lc.LoginController(self.ename.get(), self.epassword.get()).has_user():
-        #
-        #     self.invalid = tk.Label(self, text='Invalid username or password.'
-        #                        , bg='black', bd=0, fg='red', font=FONT_OUTPUT)
-        #     self.invalid.place(bordermode=OUTSIDE, x=305, y=65)
-        #
-        # else:
-        #
-        #     global registered, username, password
-        #     registered = True
-        #     username = self.ename.get()
-        #     password = self.epassword.get()
-        #     self.clean_entrys()
-        #
-        #     if up.UserPage in controller.frames:
-        #         controller.remove_frame(up.UserPage)
-        #     controller.add_frame(up.UserPage)
-        #     controller.show_frame(up.UserPage)
+        self.clean_entrys()
+        if sep.SearchPage in controller.frames:
+            controller.remove_frame(sep.SearchPage)
+        controller.add_frame(sep.SearchPage)
+        controller.show_frame(sep.SearchPage)
 
 
     def clean_entrys(self):
-        pass
-        # self.ename.delete(0, 'end')
-        # self.epassword.delete(0, 'end')
-        # try:
-        #     self.invalid.destroy()
-        # except:
-        #     pass
+
+        try:
+            self.places_namee.delete(0, 'end')
+            self.addresse.delete(0, 'end')
+            self.latitudee.delete(0, 'end')
+            self.longitudee.delete(0, 'end')
+            self.linke.delete(0, 'end')
+            self.descriptione.delete(0, 'end')
+            self.invalid.destroy()
+        except:
+            pass
 
 
 

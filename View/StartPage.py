@@ -5,6 +5,7 @@ from View import SearchPage as sep
 from View import UserPage as up
 from Controller import LoginCotroller as lc
 from View import OverViewButtons as ovb
+from View import AddPlacePage as app
 
 FONT_OUTPUT = ("Ariel", 10)
 registered = False
