@@ -10,7 +10,9 @@ class LoginController:
 
     def has_user(self):
 
-        return True if self.sql_login.has_record() else False
-
+        res = self.sql_login.has_record()
+        if res == 'Error':
+            return 'Error Connection'
+        return True if res[0][0] != 0 else False
 
 

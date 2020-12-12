@@ -31,16 +31,19 @@ class RegisterPage(tk.Frame):
         create_account.place(bordermode=OUTSIDE, x=450, y=15)
 
         num_of_registered_users = rc.num_total_users()
-        total = tk.Label(self, text='Total of ' + str(num_of_registered_users) + ' registered users'
+        if num_of_registered_users == 'Error Connection':
+            self.invalid = ovb.create_msg(self, 480, 40, 'Error occurred while\n''accessing database.')
+        else:
+            total = tk.Label(self, text='Total of ' + str(num_of_registered_users) + ' registered users'
                          , bg='black', bd=0, fg='white', font=FONT_OUTPUT)
-        total.place(bordermode=OUTSIDE, x=480, y=40)
+            total.place(bordermode=OUTSIDE, x=480, y=40)
 
 
     def input_output(self):
 
         note = tk.Label(self, text='Note here!', bg='black', bd=0, fg='blue', font=FONT_NOTE)
         note.place(bordermode=OUTSIDE, x=415, y=65)
-        ovb.CreateToolTip(note, text='Username and password must be\n''at least 6 characters long.')
+        ovb.create_tool_tip(note, text='Username and password must be\n''at least 6 characters long.')
 
         namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         namel.place(bordermode=OUTSIDE, x=420, y=100)
@@ -88,50 +91,50 @@ class RegisterPage(tk.Frame):
         except:
             pass
 
+        ue = rc.is_user_exists(self.ename.get())
         if len(self.ename.get()) < 6:
-            self.invalid_notes(510, 120, 'Username must be at\n''least 6 characters long.')
-        elif rc.is_user_exists(self.ename.get()):
+            self.invalid = ovb.create_msg(self, 510, 120, 'Username must be at\n''least 6 characters long.')
+        elif ue == 'Error Connection':
+            self.invalid = ovb.create_msg(self, 510, 120, 'Error occurred while\n''accessing database.')
+        elif ue:
             self.handle_existing_username()
         elif len(self.epassword.get()) < 6:
-            self.invalid_notes(510, 170, 'Password must be at\n''least 6 characters long.')
+            self.invalid = ovb.create_msg(self, 510, 170, 'Password must be at\n''least 6 characters long.')
         elif len(self.efirst_name.get()) == 0:
-            self.invalid_notes(510, 220, 'First name cannot be empty.\n')
+            self.invalid = ovb.create_msg(self, 510, 220, 'First name cannot be empty.\n')
         elif len(self.elast_name.get()) == 0:
-            self.invalid_notes(510, 270, 'Last name cannot be empty.\n')
+            self.invalid = ovb.create_msg(self, 510, 270, 'Last name cannot be empty.\n')
         elif not re.search(regex, self.eemail.get()):
-            self.invalid_notes(510, 320, 'Invalid email.\n')
+            self.invalid = ovb.create_msg(self, 510, 320, 'Invalid email.\n')
         else:
             st.registered = True
             st.password = self.epassword.get()
             st.username = self.ename.get()
-            rc.insert_user(self.ename.get(), self.epassword.get(), self.efirst_name.get(),
+            iu = rc.insert_user(self.ename.get(), self.epassword.get(), self.efirst_name.get(),
                            self.elast_name.get(), self.eemail.get())
-
-            if up.UserPage in controller.frames:
-                controller.remove_frame(up.UserPage)
-            controller.add_frame(up.UserPage)
-            controller.show_frame(up.UserPage)
-            self.clean_entrys()
-
-
-    def invalid_notes(self, p_x, p_y, message):
-
-        self.invalid = tk.Label(self, text='Note here!'
-                           , bg='black', bd=0, fg='red', font=FONT_NOTE)
-        self.invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
-        ovb.CreateToolTip(self.invalid, text=message)
+            if iu == 'Inserted':
+                if up.UserPage in controller.frames:
+                    controller.remove_frame(up.UserPage)
+                controller.add_frame(up.UserPage)
+                controller.show_frame(up.UserPage)
+                self.clean_entrys()
+            else:
+                self.invalid = ovb.create_msg(self, 470, 340, 'Error occurred while\n''accessing database.')
 
 
     def handle_existing_username(self):
 
         suggestion1 = suggestion2 = self.ename.get()
+        try:
 
-        while rc.is_user_exists(suggestion1):
-            suggestion1 = suggestion1 + random.choice(string.ascii_letters)
-        while rc.is_user_exists(suggestion2):
-            suggestion2 = suggestion2 + str(random.randint(0, 9999))
-
-        self.invalid_notes(510, 120, 'Username Taken try:\n' + suggestion1 + ' or ' + suggestion2)
+            while rc.is_user_exists(suggestion1):
+                suggestion1 = suggestion1 + random.choice(string.ascii_letters)
+            while rc.is_user_exists(suggestion2):
+                suggestion2 = suggestion2 + str(random.randint(0, 9999))
+            msg = 'Username Taken try:\n' + suggestion1 + ' or ' + suggestion2
+        except:
+            msg = 'Error occurred while\n''accessing database.'
+        self.invalid = ovb.create_msg(self, 510, 120, msg)
 
 
     def clean_entrys(self):

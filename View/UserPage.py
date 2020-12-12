@@ -3,6 +3,7 @@ import tkinter as tk
 from View import SearchPage as sp
 from View import StartPage as st
 from View import ResultPage as rp
+from View import AddPlacePage as app
 from Controller import UserController as uc
 from View import OverViewButtons as ovb
 
@@ -30,22 +31,24 @@ class UserPage(tk.Frame):
     def input_output(self):
 
         user = uc.UserController(st.username).get_user()
+        if user == 'Error Connection':
+            ovb.create_msg(self, 35, 230, 'Error occurred while\n''accessing database.')
+        else:
+            str1 = 'First Name: ' + user.first_name
+            first_namel = tk.Label(self, text=str1, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+            first_namel.place(bordermode=OUTSIDE, x=35, y=230)
 
-        str1 = 'First Name: ' + user.first_name
-        first_namel = tk.Label(self, text=str1, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        first_namel.place(bordermode=OUTSIDE, x=35, y=230)
+            str2 = 'Last Name: ' + user.last_name
+            last_namel = tk.Label(self, text=str2, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+            last_namel.place(bordermode=OUTSIDE, x=35, y=260)
 
-        str2 = 'Last Name: ' + user.last_name
-        last_namel = tk.Label(self, text=str2, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        last_namel.place(bordermode=OUTSIDE, x=35, y=260)
+            str3 = 'Username: ' + user.username
+            usernamel = tk.Label(self, text=str3, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+            usernamel.place(bordermode=OUTSIDE, x=35, y=290)
 
-        str3 = 'Username: ' + user.username
-        usernamel = tk.Label(self, text=str3, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        usernamel.place(bordermode=OUTSIDE, x=35, y=290)
-
-        str4 = 'Email: ' + user.email
-        emaill = tk.Label(self, text=str4, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
-        emaill.place(bordermode=OUTSIDE, x=35, y=320)
+            str4 = 'Email: ' + user.email
+            emaill = tk.Label(self, text=str4, bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
+            emaill.place(bordermode=OUTSIDE, x=35, y=320)
 
 
     def buttons(self, controller):
@@ -69,8 +72,20 @@ class UserPage(tk.Frame):
         self.show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
                                     , command=lambda : self.show_list_box(controller))
         self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
+#####################################################################################################
+
+        self.test = tk.Button(self,text='hi_test', borderwidth=0, background='black'
+                                    , command=lambda: self.test_only(controller))
+        self.test.place(bordermode=OUTSIDE, x=300, y=80)
 
 
+    def test_only(self, controller):
+
+        if app.AddPlacePage not in controller.frames:
+            controller.add_frame(app.AddPlacePage)
+        controller.show_frame(app.AddPlacePage)
+
+####################################################################### TEST ONLY
     def search_button(self, controller):
 
         if sp.SearchPage not in controller.frames:
@@ -136,20 +151,25 @@ class UserPage(tk.Frame):
 
         places = uc.UserController(st.username).get_user_places()
 
-        for item in places:
-
-            self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
-                + item.category.upper() + ' ' + item.sub_category.upper() + ' ' + item.place_name.upper())
+        if places == 'Error Connection':
+            ovb.create_msg(self, 515, 30, 'Error occurred while\n''accessing database.')
+        else:
+            for item in places:
+                self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
+                    + item.category.upper() + ' ' + item.sub_category.upper() + ' ' + item.place_name.upper())
 
 
     def remove_item(self):
 
         place_to_remove = self.listbox.get(ANCHOR).split(' ')[2].strip() if self.listbox.get(ANCHOR) != '' else None
         if place_to_remove is None:
-            self.invalid_notes(525, 455, 'Please select place\n''from the list box.')
+            self.invalid = ovb.create_msg(self, 525, 455, 'Please select place\n''from the list box.')
         else:
-            uc.UserController(st.username).remove_place(int(place_to_remove))
-            self.listbox.delete(ANCHOR)
+            res = uc.UserController(st.username).remove_place(int(place_to_remove))
+            if res == 'Deleted':
+                self.listbox.delete(ANCHOR)
+            else:
+                self.invalid = ovb.create_msg(self, 525, 455, 'Error occurred while\n''accessing database.')
 
 
     def show_info(self, controller):
@@ -158,17 +178,9 @@ class UserPage(tk.Frame):
 
         place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
         if place_id is None:
-            self.invalid_notes(310, 455, 'Please select place\n''from the list box.')
+            self.invalid = ovb.create_msg(self, 310, 455, 'Please select place\n''from the list box.')
         else:
             if rp.ResultPage in controller.frames:
                 controller.remove_frame(rp.ResultPage)
             controller.add_frame(rp.ResultPage)
             controller.show_frame(rp.ResultPage)
-
-
-    def invalid_notes(self, p_x, p_y, message):
-
-        self.invalid = tk.Label(self, text='Note here!'
-                           , bg='black', bd=0, fg='red', font=FONT_LIST)
-        self.invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
-        ovb.CreateToolTip(self.invalid, text=message)

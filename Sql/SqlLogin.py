@@ -10,9 +10,14 @@ class SqlLogin:
 
     def has_record(self):
 
-        mycursor = self.connection.mydb.cursor()
-        sql = "SELECT username, COUNT(*) FROM users WHERE username = %s AND password = %s GROUP BY username"
-        adr = (self.user, self.password)
-        mycursor.execute(sql, adr)
-
-        return mycursor.fetchall()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT COUNT(*) FROM Users WHERE `User Name` = %s AND Password = %s"
+                adr = (self.user, self.password)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
+            except:
+                return 'Error'
+        return 'Error'

@@ -5,26 +5,45 @@ class SqlRegister:
     def __init__(self):
 
         self.connection = sc.SqlConnection()
-        self.mycursor = self.connection.mydb.cursor()
-
 
     def total_users(self):
 
-        self.mycursor.execute("select count(*) from users")
-        return self.mycursor.fetchall()
+        if self.connection.connection_state == 'Connected':
+            try:
+                self.connection.my_cursor.execute("SELECT COUNT(*) FROM Users")
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
+            except:
+                return 'Error'
+        return 'Error'
 
     def record_exist(self, name):
 
-        sql = "SELECT username FROM users WHERE users.username LIKE %s"
-        adr = (name,)
-        self.mycursor.execute(sql,adr)
-
-        return self.mycursor.fetchall()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT `User Name` FROM Users WHERE Users.`User Name` LIKE %s"
+                adr = (name,)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
+            except:
+                return 'Error'
+        return 'Error'
 
     def insert_user_record(self, name, password, first_name, last_name, mail):
 
-        sql = "INSERT INTO users (username, firstname, lastname, email, password) VALUES (%s, %s, %s, %s, %s)"
-        val = (name, first_name, last_name, mail, password)
-        self.mycursor.execute(sql, val)
-        self.connection.mydb.commit()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "INSERT INTO Users (`User Name`, `First Name`, `Last Name`, `Email`, `Password`) \
+                      VALUES (%s, %s, %s, %s, %s)"
+                adr = (name, first_name, last_name, mail, password)
+                self.connection.my_cursor.execute(sql, adr)
+                self.connection.mydb.commit()
+                self.connection.close()
+                return 'Inserted'
+            except:
+                return 'Error'
+        return 'Error'
 

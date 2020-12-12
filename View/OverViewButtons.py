@@ -1,14 +1,20 @@
 from tkinter import *
+import tkinter as tk
+
+FONT_NOTE = ("Ariel", 10, "bold", "underline")
+
 
 class ToolTip(object):
 
     def __init__(self, widget):
+
         self.widget = widget
         self.tipwindow = None
         self.id = None
         self.x = self.y = 0
 
     def showtip(self, text):
+
         "Display text in tooltip window"
         self.text = text
         if self.tipwindow or not self.text:
@@ -25,16 +31,26 @@ class ToolTip(object):
         label.pack(ipadx=1)
 
     def hidetip(self):
+
         tw = self.tipwindow
         self.tipwindow = None
         if tw:
             tw.destroy()
 
-def CreateToolTip(widget, text):
-    toolTip = ToolTip(widget)
+def create_tool_tip(widget, text):
+
+    tool_tip = ToolTip(widget)
     def enter(event):
-        toolTip.showtip(text)
+        tool_tip.showtip(text)
     def leave(event):
-        toolTip.hidetip()
+        tool_tip.hidetip()
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
+
+def create_msg(self, p_x, p_y, message):
+
+    invalid = tk.Label(self, text='Note here!'
+                            , bg='black', bd=0, fg='red', font=FONT_NOTE)
+    invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
+    create_tool_tip(invalid, text=message)
+    return invalid

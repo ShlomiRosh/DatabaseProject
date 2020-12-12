@@ -5,30 +5,46 @@ class SqlUser:
     def __init__(self, username):
 
         self.connection = sc.SqlConnection()
-        self.mycursor = self.connection.mydb.cursor()
         self.username = username
 
     def get_user_record(self):
 
-        sql = "SELECT * FROM users WHERE users.username LIKE %s"
-        adr = (self.username,)
-        self.mycursor.execute(sql, adr)
-
-        return self.mycursor.fetchall()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT * FROM Users WHERE Users.`User Name` LIKE %s"
+                adr = (self.username,)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
+            except:
+                return 'Error'
+        return 'Error'
 
     def get_user_places(self):
 
-        # *** Complex query Number 1 ***
-        sql = "SELECT * FROM places WHERE place_id "" \
-        ""IN (SELECT place_id from users_places where username = %s)"
-        adr = (self.username,)
-        self.mycursor.execute(sql, adr)
-
-        return self.mycursor.fetchall()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT * FROM Places WHERE `Place ID` "" \
+                        ""IN (SELECT `Place ID` FROM `Users Places` WHERE `User Name` = %s)"
+                adr = (self.username,)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
+            except:
+                return 'Error'
+        return 'Error'
 
     def del_places_record(self, place_id):
 
-        sql = "DELETE FROM users_places WHERE place_id = %s"
-        adr = (place_id,)
-        self.mycursor.execute(sql, adr)
-        self.connection.mydb.commit()
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "DELETE FROM `Users Places` WHERE `Place ID` = %s"
+                adr = (place_id,)
+                self.connection.my_cursor.execute(sql, adr)
+                self.connection.mydb.commit()
+                self.connection.close()
+                return 'Deleted'
+            except:
+                return 'Error'

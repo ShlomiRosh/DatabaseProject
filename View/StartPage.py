@@ -1,10 +1,10 @@
 from tkinter import *
-from tkinter import ttk
 import tkinter as tk
 from View import RegisterPage as rp
 from View import SearchPage as sep
 from View import UserPage as up
 from Controller import LoginCotroller as lc
+from View import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
 registered = False
@@ -23,7 +23,7 @@ class StartPage(tk.Frame):
 
     def background(self):
 
-        self.img = tk.PhotoImage(file='..\Pic\\startPic.png')
+        self.img = tk.PhotoImage(file='..\Pic\\startPic1.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
@@ -43,11 +43,6 @@ class StartPage(tk.Frame):
 
     def buttons(self, controller):
 
-        self.b1_img = PhotoImage(file='..\Pic\\logo.png')
-        b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'
-                        , command=lambda : controller.show_frame(StartPage))
-        b1.place(bordermode=OUTSIDE, x=20, y=20)
-
         self.login_img = PhotoImage(file='..\Pic\\blogin.png')
         login = tk.Button(self, image=self.login_img, borderwidth=0, background='black'
                           , command = lambda: self.login_button(controller))
@@ -66,27 +61,27 @@ class StartPage(tk.Frame):
 
     def as_guest_button(self, controller):
 
-        if sep.SearchPage not in controller.frames:
-            controller.add_frame(sep.SearchPage)
+        if sep.SearchPage in controller.frames:
+            controller.remove_frame(sep.SearchPage)
+        controller.add_frame(sep.SearchPage)
         controller.show_frame(sep.SearchPage)
 
 
     def register_button(self, controller):
 
-        if rp.RegisterPage not in controller.frames:
-            controller.add_frame(rp.RegisterPage)
+        if rp.RegisterPage in controller.frames:
+            controller.remove_frame(rp.RegisterPage)
+        controller.add_frame(rp.RegisterPage)
         controller.show_frame(rp.RegisterPage)
 
 
     def login_button(self, controller):
 
-        if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 \
-                or not lc.LoginController(self.ename.get(), self.epassword.get()).has_user():
-
-            self.invalid = tk.Label(self, text='Invalid username or password.'
-                               , bg='black', bd=0, fg='red', font=FONT_OUTPUT)
-            self.invalid.place(bordermode=OUTSIDE, x=305, y=65)
-
+        login = lc.LoginController(self.ename.get(), self.epassword.get()).has_user()
+        if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 or not login:
+            self.invalid = ovb.create_msg(self, 305, 65, 'Invalid username or password.')
+        elif login == 'Error Connection':
+            self.invalid = ovb.create_msg(self, 305, 65, 'Error occurred while\n''accessing database.')
         else:
 
             global registered, username, password

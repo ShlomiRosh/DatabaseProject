@@ -1,42 +1,20 @@
 from Sql import SqlUser as su
-
-
-class User:
-
-    username = ''
-    first_name = ''
-    last_name = ''
-    email = ''
-    password = ''
-
-
-class Place:
-
-    place_id = 0
-    place_name = ''
-    state = ''
-    city = ''
-    address = ''
-    sub_category = ''
-    longitude = 0.0
-    latitude = 0.0
-    link = ''
-    description = None
-    category = ''
-
+from Controller import Entities as e
 
 class UserController:
 
     def __init__(self, username):
 
         self.username = username
-        self.user = User()
-        #self.place = Place()
+        self.user = e.User()
         self.places = []
 
     def get_user(self):
 
         raw_data = su.SqlUser(self.username).get_user_record()[0]
+
+        if raw_data == 'Error':
+            return 'Error Connection'
         self.user.username = raw_data[0]
         self.user.first_name = raw_data[1]
         self.user.last_name = raw_data[2]
@@ -49,9 +27,12 @@ class UserController:
 
         raw_data = su.SqlUser(self.username).get_user_places()
 
+        if raw_data == 'Error':
+            return 'Error Connection'
+
         for place in raw_data:
 
-            ins_place = Place()
+            ins_place = e.Place()
             ins_place.place_id = place[0]
             ins_place.place_name = place[1]
             ins_place.state = place[2]
@@ -70,4 +51,5 @@ class UserController:
 
     def remove_place(self, place_id):
 
-        su.SqlUser(self.username).del_places_record(place_id)
+        res = su.SqlUser(self.username).del_places_record(place_id)
+        return 'Deleted' if res == 'Deleted' else 'Error Connection'

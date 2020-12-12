@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from View import AutocompleteSearch as acs
 from Controller import SearchController as sc
-autocompleteList = sc.get_locations()
+#autocompleteList = sc.get_locations()
 # arye
 # דיךםצן dddddddddddddddd
 # shalom ggh
@@ -24,9 +24,11 @@ class SearchPage(tk.Frame):
 
 
     def input(self):
+        pass
+        #entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=8, width=50, matchesFunction=acs.matches)
+        #entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
 
-        entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=8, width=50, matchesFunction=acs.matches)
-        entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
+
         # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
         # namel.place(bordermode=OUTSIDE, x=305, y=15)
         # self.ename = Entry(self)
