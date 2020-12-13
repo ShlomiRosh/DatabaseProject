@@ -1,11 +1,13 @@
 from tkinter import *
 import tkinter as tk
+from tkinter import ttk
 from View import SearchPage as sep
 from Controller import AddPlaceController as apc
 from View import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10, "underline")
 FONT_TY = ("Ariel", 15, "bold")
+stop = True
 
 class AddPlacePage(tk.Frame):
 
@@ -82,6 +84,10 @@ class AddPlacePage(tk.Frame):
             self.invalid = ovb.create_msg(self, 575, 200, 'Error occurred while\n''accessing database.')
         elif pe:
             self.invalid = ovb.create_msg(self, 575, 200, 'Place is already exists.\n')
+        elif len(self.places_namee.get()) == 0:
+            self.invalid = ovb.create_msg(self, 575, 200, 'Places Name cannot be empty.\n')
+        elif len(self.addresse.get()) == 0:
+            self.invalid = ovb.create_msg(self, 575, 200, 'Address cannot be empty.\n')
         elif len(self.latitudee.get()) == 0:
             self.invalid = ovb.create_msg(self, 575, 200, 'Latitude cannot be empty.\n')
         elif len(self.longitudee.get()) == 0:
@@ -119,6 +125,18 @@ class AddPlacePage(tk.Frame):
             self.invalid.destroy()
         except:
             pass
+
+    # def anim(self):
+    #
+    #     animations = ['|', '/', '-', '\\',]
+    #     i = 0
+    #     cal = tk.Label(self, text=animations[0], font=FONT_TY, fg='blue')
+    #     cal.place(bordermode=OUTSIDE, x=550, y=170)
+    #     while stop:
+    #         cal.destroy()
+    #         time.sleep(1)
+    #         cal = tk.Label(self, text=animations[(i)%4], font=FONT_TY, fg='blue')
+    #         cal.place(bordermode=OUTSIDE, x=550, y=170)
 
 
 

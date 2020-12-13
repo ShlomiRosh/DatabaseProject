@@ -1,5 +1,17 @@
 import mysql.connector
+from mysql.connector import pooling
 
+try:
+    connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="pynative_pool",
+                                                                  pool_size=5,
+                                                                  pool_reset_session=True,
+                                                                  host='localhost',
+                                                                  database='TripleA',
+                                                                  user='root',
+                                                                  password='5678910')
+
+except:
+    print('Error while connecting to MySQL using Connection pool')
 
 class SqlConnection:
 
@@ -7,20 +19,20 @@ class SqlConnection:
 
         self.connection_state = ''
         try:
-            self.mydb = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="5678910",
-                database="TripleA"
-            )
-            self.connection_state = 'Connected'
-            self.my_cursor = self.mydb.cursor()
+            self.mydb = connection_pool.get_connection()
+            if self.mydb.is_connected():
+                self.connection_state = 'Connected'
+                self.my_cursor = self.mydb.cursor()
         except:
             self.connection_state = 'Not Connected'
 
     def close(self):
 
         try:
-            self.mydb.close()
+            if self.mydb.is_connected():
+                self.my_cursor.close()
+                self.mydb.close()
         except:
             pass
+
+
