@@ -22,10 +22,10 @@ class SearchPage(tk.Frame):
 
 
     def background(self):
-
-        self.img = tk.PhotoImage(file='..\Pic\\searchpagePic1.png')
-        panel = tk.Label(self, image=self.img)
-        panel.place(bordermode=OUTSIDE)
+        pass
+        # self.img = tk.PhotoImage(file='..\Pic\\searchpagePic1.png')
+        # panel = tk.Label(self, image=self.img)
+        # panel.place(bordermode=OUTSIDE)
 
 
     def input(self):
@@ -46,9 +46,10 @@ class SearchPage(tk.Frame):
 
 
     def buttons(self, controller):
-        C1 = Checkbutton(self, text="Music",
-                         onvalue=1, offvalue=0, bg='grey', fg='blue')
-        C1.place(bordermode=OUTSIDE, x=20, y=275)
+        pass
+        # C1 = Checkbutton(self, text="Music",
+        #                  onvalue=1, offvalue=0, bg='grey', fg='blue')
+        # C1.place(bordermode=OUTSIDE, x=20, y=275)
         # self.b1_img = PhotoImage(file='..\Pic\\logo.png')
         # b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'
         #                 , command=lambda : controller.show_frame(StartPage))
@@ -68,7 +69,7 @@ class SearchPage(tk.Frame):
         # guest.place(bordermode=OUTSIDE, x=500, y=410)
 #####################################################################################################
 
-        self.test = tk.Button(self, text='hi_test', borderwidth=0, background='yellow'
+        self.test = tk.Button(self, text='addPlace', borderwidth=0, background='yellow'
                               , command=lambda: self.test_only(controller))
         self.test.place(bordermode=OUTSIDE, x=300, y=80)
 
