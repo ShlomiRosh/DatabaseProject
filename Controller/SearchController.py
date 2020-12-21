@@ -8,6 +8,6 @@ def get_locations():
 
     for location in raw_data:
 
-        locations.append(location[1] + ' ' + location[2])
+        locations.append(location[1] + ', ' + location[2])
 
     return locations
