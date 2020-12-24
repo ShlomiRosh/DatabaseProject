@@ -33,17 +33,20 @@ class SqlSearch:
         return 'Error'
 
     # basic query for places
-    def get_places_query(self, loc_id, sub_dict):
+    def get_places_query(self, loc_id, sub_dict, categories_arr):
         if self.connection.connection_state == 'Connected':
             print("the connection status is connected from search sql")
             try:
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s"
                 adr = []
                 adr.append(loc_id)
-                for key in sub_dict:
-                    if sub_dict[key] == True:
-                        sql += " AND Places.`Sub Categoty` LIKE %s"
-                        adr.append(key)
+                for cat_check in categories_arr:
+                    for sub_check in cat_check.sub_checks_arr:
+                        if sub_check and sub_check.check_var.get():
+                            sql += " AND Places.`Sub Category` LIKE %s"
+                            adr.append(sub_check.code)
+                print(sql)
+                print(adr)
                 self.connection.my_cursor.execute(sql, adr)
                 res = self.connection.my_cursor.fetchall()
                 self.connection.close()

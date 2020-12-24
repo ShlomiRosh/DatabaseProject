@@ -19,7 +19,7 @@ def get_location_id(state, city):
     return id
 
 
-def get_places(loc_id, sub_dict):
-    places = sse.SqlSearch().get_places_query(loc_id, sub_dict)
+def get_places(loc_id, sub_dict, categories_arr):
+    places = sse.SqlSearch().get_places_query(loc_id, sub_dict, categories_arr)
     print(places)
     return places
