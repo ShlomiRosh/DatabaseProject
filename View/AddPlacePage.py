@@ -1,33 +1,37 @@
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
 from View import SearchPage as sep
 from Controller import AddPlaceController as apc
 from View import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10, "underline")
 FONT_TY = ("Ariel", 15, "bold")
-stop = True
 
+# This class is responsible for displaying the Add Place page.
 class AddPlacePage(tk.Frame):
 
     def __init__(self, parent, controller):
-
         tk.Frame.__init__(self, parent)
+        self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
+        self.add_img = PhotoImage(file='..\Pic\\badd.png')
+        self.img = tk.PhotoImage(file='..\Pic\\addPlace1.png')
+        # Here I declare the buttons, the widgets that will be on the page,
+        # later in the corresponding functions I will initialize them.
+        self.places_namee, self.addresse, self.latitudee, self.longitudee, self.linke\
+        , self.descriptione, self.invalid = None, None, None, None, None, None, None
+        # In these functions I will create & place all of the components
+        # in the appropriate places, and run logic according to the user's requirements.
         self.background()
         self.input_output()
         self.buttons(controller)
 
 
     def background(self):
-
-        self.img = tk.PhotoImage(file='..\Pic\\addPlace1.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
 
     def input_output(self):
-
         places_namel = tk.Label(self, text='Place Name:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         places_namel.place(bordermode=OUTSIDE, x=30, y=30)
         self.places_namee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
@@ -60,24 +64,19 @@ class AddPlacePage(tk.Frame):
 
 
     def buttons(self, controller):
-
-        self.add_img = PhotoImage(file='..\Pic\\badd.png')
         add = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
                           , command = lambda: self.add_button(controller))
         add.place(bordermode=OUTSIDE, x=535, y=150)
-
-        self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
         back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='white'
                              , command=lambda: self.go_back_button(controller))
         back.place(bordermode=OUTSIDE, x=20, y=450)
 
 
+    # Check the place the user has entered whether it already exists in the system or not, display
+    # appropriate messages. Contact the controller who will add the place if it is really new and thank the user.
     def add_button(self, controller):
-
-        try:
+        if self.invalid is not None:
             self.invalid.destroy()
-        except:
-            pass
 
         pe = apc.place_exists(self.places_namee.get(), self.addresse.get())
         if pe == 'Error Connection':
@@ -101,20 +100,14 @@ class AddPlacePage(tk.Frame):
                 thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
                 thanks.place(bordermode=OUTSIDE, x=40, y=150)
                 self.clean_entrys()
-            #self.go_back_button(controller)
 
 
     def go_back_button(self, controller):
-
         self.clean_entrys()
-        if sep.SearchPage in controller.frames:
-            controller.remove_frame(sep.SearchPage)
-        controller.add_frame(sep.SearchPage)
-        controller.show_frame(sep.SearchPage)
+        controller.manage_frame(sep.SearchPage)
 
 
     def clean_entrys(self):
-
         try:
             self.places_namee.delete(0, 'end')
             self.addresse.delete(0, 'end')
@@ -126,17 +119,6 @@ class AddPlacePage(tk.Frame):
         except:
             pass
 
-    # def anim(self):
-    #
-    #     animations = ['|', '/', '-', '\\',]
-    #     i = 0
-    #     cal = tk.Label(self, text=animations[0], font=FONT_TY, fg='blue')
-    #     cal.place(bordermode=OUTSIDE, x=550, y=170)
-    #     while stop:
-    #         cal.destroy()
-    #         time.sleep(1)
-    #         cal = tk.Label(self, text=animations[(i)%4], font=FONT_TY, fg='blue')
-    #         cal.place(bordermode=OUTSIDE, x=550, y=170)
 
 
 

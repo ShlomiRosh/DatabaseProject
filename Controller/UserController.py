@@ -1,18 +1,17 @@
 from Sql import SqlUser as su
 from Controller import Entities as e
 
+# This module is responsible for the page user.
 class UserController:
 
     def __init__(self, username):
-
         self.username = username
         self.user = e.User()
         self.places = []
 
+    # Turns to SQL gets the user information and puts it into a suitable entity.
     def get_user(self):
-
         raw_data = su.SqlUser(self.username).get_user_record()[0]
-
         if raw_data == 'Error':
             return 'Error Connection'
         self.user.username = raw_data[0]
@@ -20,18 +19,16 @@ class UserController:
         self.user.last_name = raw_data[2]
         self.user.email = raw_data[3]
         self.user.password = raw_data[4]
-
         return self.user
 
+    # Turns to SQL asks for the user's favorite places list, puts them in a suitable entity,
+    # returns this list to the display page.
     def get_user_places(self):
-
         raw_data = su.SqlUser(self.username).get_user_places()
-
         if raw_data == 'Error':
             return 'Error Connection'
 
         for place in raw_data:
-
             ins_place = e.Place()
             ins_place.place_id = place[0]
             ins_place.place_name = place[1]
@@ -42,12 +39,10 @@ class UserController:
             ins_place.description = place[6]
             ins_place.location_id = place[7]
             ins_place.sub_category = place[8]
-
             self.places.append(ins_place)
-
         return self.places
 
+    # Turns to SQL and asks to remove a place from a particular user's place list.
     def remove_place(self, place_id):
-
         res = su.SqlUser(self.username).del_places_record(place_id)
         return 'Deleted' if res == 'Deleted' else 'Error Connection'

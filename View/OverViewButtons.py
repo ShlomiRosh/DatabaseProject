@@ -3,19 +3,19 @@ import tkinter as tk
 
 FONT_NOTE = ("Ariel", 10, "bold", "underline")
 
-
+# This class is basically a tool that creates a cool display window for the user, when the
+# user moves the mouse to a specified place he will be able to read the particular message according
+# to the needs of the app.
 class ToolTip(object):
 
     def __init__(self, widget):
-
         self.widget = widget
         self.tipwindow = None
         self.id = None
         self.x = self.y = 0
 
     def showtip(self, text):
-
-        "Display text in tooltip window"
+        # Display text in tooltip window
         self.text = text
         if self.tipwindow or not self.text:
             return
@@ -31,14 +31,12 @@ class ToolTip(object):
         label.pack(ipadx=1)
 
     def hidetip(self):
-
         tw = self.tipwindow
         self.tipwindow = None
         if tw:
             tw.destroy()
 
 def create_tool_tip(widget, text):
-
     tool_tip = ToolTip(widget)
     def enter(event):
         tool_tip.showtip(text)
@@ -48,7 +46,6 @@ def create_tool_tip(widget, text):
     widget.bind('<Leave>', leave)
 
 def create_msg(self, p_x, p_y, message):
-
     invalid = tk.Label(self, text='Note here!'
                             , bg='black', bd=0, fg='red', font=FONT_NOTE)
     invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)

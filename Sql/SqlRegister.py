@@ -1,13 +1,12 @@
 from Sql import SqlConnection as sc
 
+# This class performs queries for the module RegisterController.
 class SqlRegister:
 
     def __init__(self):
-
         self.connection = sc.SqlConnection()
 
     def total_users(self):
-
         if self.connection.connection_state == 'Connected':
             try:
                 self.connection.my_cursor.execute("SELECT COUNT(*) FROM Users")
@@ -19,7 +18,6 @@ class SqlRegister:
         return 'Error'
 
     def record_exist(self, name):
-
         if self.connection.connection_state == 'Connected':
             try:
                 sql = "SELECT `User Name` FROM Users WHERE Users.`User Name` LIKE %s"
@@ -33,7 +31,6 @@ class SqlRegister:
         return 'Error'
 
     def insert_user_record(self, name, password, first_name, last_name, mail):
-
         if self.connection.connection_state == 'Connected':
             try:
                 sql = "INSERT INTO Users (`User Name`, `First Name`, `Last Name`, `Email`, `Password`) \

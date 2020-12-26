@@ -13,24 +13,31 @@ FONT_OUTPUT = ("Ariel", 9)
 FONT_NOTE = ("Ariel", 10, "bold", "underline")
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
+# This class is responsible for displaying the register page.
 class RegisterPage(tk.Frame):
 
     def __init__(self, parent, controller):
-
         tk.Frame.__init__(self, parent)
+        self.home_img = PhotoImage(file='..\Pic\\bhome.png')
+        self.register_img = PhotoImage(file='..\Pic\\bregister.png')
+        self.img = tk.PhotoImage(file='..\Pic\\‏‏registerPic2.png')
+        # Here I declare the buttons, the widgets that will be on the page,
+        # later in the corresponding functions I will initialize them.
+        self.ename, self.epassword, self.efirst_name, self.elast_name\
+        , self.eemail, self.invalid = None, None, None, None, None, None
+        # In these functions I will create & place all of the components
+        # in the appropriate places, and run logic according to the user's requirements.
         self.background()
         self.input_output()
         self.buttons(controller)
 
     def background(self):
-
-        self.img = tk.PhotoImage(file='..\Pic\\‏‏registerPic2.png')
+        # Show the user the background image, and "persuade him to register"
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
-
         create_account = tk.Label(self, text='Create Your Account:', bg='black', bd=0, fg='white', font=FONT_CREATE)
         create_account.place(bordermode=OUTSIDE, x=450, y=15)
-
+        # Get the number of registered users from the controller
         num_of_registered_users = rc.num_total_users()
         if num_of_registered_users == 'Error Connection':
             self.invalid = ovb.create_msg(self, 480, 40, 'Error occurred while\n''accessing database.')
@@ -41,7 +48,6 @@ class RegisterPage(tk.Frame):
 
 
     def input_output(self):
-
         note = tk.Label(self, text='Note here!', bg='black', bd=0, fg='blue', font=FONT_NOTE)
         note.place(bordermode=OUTSIDE, x=415, y=65)
         ovb.create_tool_tip(note, text='Username and password must be\n''at least 6 characters long.')
@@ -73,24 +79,20 @@ class RegisterPage(tk.Frame):
 
 
     def buttons(self, controller):
-
-        self.register_img = PhotoImage(file='..\Pic\\bregister.png')
-        b1 = tk.Button(self, image=self.register_img, borderwidth=0, background='black'
+        register = tk.Button(self, image=self.register_img, borderwidth=0, background='black'
                        , command=lambda: self.register_button(controller))
-        b1.place(bordermode=OUTSIDE, x=470, y=350)
-
-        self.home_img = PhotoImage(file='..\Pic\\bhome.png')
-        register = tk.Button(self, image=self.home_img, borderwidth=0, background='black'
+        register.place(bordermode=OUTSIDE, x=470, y=350)
+        go_back = tk.Button(self, image=self.home_img, borderwidth=0, background='black'
                              , command=lambda: controller.show_frame(st.StartPage))
-        register.place(bordermode=OUTSIDE, x=470, y=410)
+        go_back.place(bordermode=OUTSIDE, x=470, y=410)
 
 
+    # If the user clicks on the registration button, check the details according to their correctness show messages.
+    # If the user name already exists, take care of it. If everything is OK, ask the controller to
+    # register it, move it to the user page.
     def register_button(self, controller):
-
-        try:
+        if self.invalid is not None:
             self.invalid.destroy()
-        except:
-            pass
 
         ue = rc.is_user_exists(self.ename.get())
         if len(self.ename.get()) < 6:
@@ -114,20 +116,17 @@ class RegisterPage(tk.Frame):
             iu = rc.insert_user(self.ename.get(), self.epassword.get(), self.efirst_name.get(),
                            self.elast_name.get(), self.eemail.get())
             if iu == 'Inserted':
-                if up.UserPage in controller.frames:
-                    controller.remove_frame(up.UserPage)
-                controller.add_frame(up.UserPage)
-                controller.show_frame(up.UserPage)
+                controller.manage_frame(up.UserPage)
                 self.clean_entrys()
             else:
                 self.invalid = ovb.create_msg(self, 470, 340, 'Error occurred while\n''accessing database.')
 
 
+    # If the username already exists, try to offer the user two options for a username that is close
+    # to what he chose but does not exist in our system.
     def handle_existing_username(self):
-
         suggestion1 = suggestion2 = self.ename.get()
         try:
-
             while rc.is_user_exists(suggestion1):
                 suggestion1 = suggestion1 + random.choice(string.ascii_letters)
             while rc.is_user_exists(suggestion2):
@@ -139,13 +138,10 @@ class RegisterPage(tk.Frame):
 
 
     def clean_entrys(self):
-
         self.ename.delete(0, 'end')
         self.epassword.delete(0, 'end')
         self.efirst_name.delete(0, 'end')
         self.elast_name.delete(0, 'end')
         self.eemail.delete(0, 'end')
-        try:
+        if self.invalid is not None:
             self.invalid.destroy()
-        except:
-            pass

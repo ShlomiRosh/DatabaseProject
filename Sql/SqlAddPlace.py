@@ -1,13 +1,12 @@
 from Sql import SqlConnection as sc
 
+# This class performs queries for the module AddPlaceController.
 class SqlAddPlace:
 
     def __init__(self):
-
         self.connection = sc.SqlConnection()
 
     def has_place(self, place_name, address):
-
         if self.connection.connection_state == 'Connected':
             try:
                 sql = "SELECT COUNT(*) FROM Places WHERE `Name` = %s AND `Address` = %s"
@@ -21,7 +20,6 @@ class SqlAddPlace:
         return 'Error'
 
     def insert_place_record(self, place):
-
         if self.connection.connection_state == 'Connected':
             try:
                 sql = "INSERT INTO Places(`Name`, `Address`, `Latitude`, `Longitude`, `Link`,\

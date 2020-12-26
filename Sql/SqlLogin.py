@@ -1,15 +1,14 @@
 from Sql import SqlConnection as sc
 
+# This class performs queries for the module LoginController.
 class SqlLogin:
 
     def __init__(self, user, password):
-
         self.connection = sc.SqlConnection()
         self.user = user
         self.password = password
 
     def has_record(self):
-
         if self.connection.connection_state == 'Connected':
             try:
                 sql = "SELECT COUNT(*) FROM Users WHERE `User Name` = %s AND Password = %s"

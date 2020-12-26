@@ -1,3 +1,5 @@
+# This module holds entities that are used in a number of other modules in the controller.
+
 class User:
 
     username = ''

@@ -4,7 +4,8 @@ from View import StartPage as sp
 WIN_SIZE = '750x500+50+20'
 TITLE = 'TripleA'
 
-
+# This is the class that is responsible for managing the page view,
+# which means that the main part of the application is located here.
 class TripleAapp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -31,7 +32,15 @@ class TripleAapp(tk.Tk):
     def remove_frame(self, con):
         self.frames.pop(con)
 
+    # When moving between pages, keep the pages updated by rebuilding.
+    def manage_frame(self, con):
+        if con in self.frames:
+            self.remove_frame(con)
+        self.add_frame(con)
+        self.show_frame(con)
 
+
+# Create the main win for the app and keep it ruining.
 application = TripleAapp()
 application.geometry(WIN_SIZE)
 application.resizable(False, False)

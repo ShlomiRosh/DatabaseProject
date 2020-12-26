@@ -12,30 +12,35 @@ registered = False
 username = ''
 password = ''
 
+# This class is responsible for displaying the start page.
 class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
-
         tk.Frame.__init__(self, parent)
+        self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
+        self.register_img = PhotoImage(file='..\Pic\\bregister.png')
+        self.login_img = PhotoImage(file='..\Pic\\blogin.png')
+        self.img = tk.PhotoImage(file='..\Pic\\startPic1.png')
+        # Here I declare the buttons, the widgets that will be on the page,
+        # later in the corresponding functions I will initialize them.
+        self.invalid, self.ename, self.epassword = None, None, None
+        # In these functions I will create & place all of the components
+        # in the appropriate places, and run logic according to the user's requirements.
         self.background()
         self.input_output()
         self.buttons(controller)
 
 
     def background(self):
-
-        self.img = tk.PhotoImage(file='..\Pic\\startPic1.png')
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
 
     def input_output(self):
-
         namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         namel.place(bordermode=OUTSIDE, x=305, y=15)
         self.ename = Entry(self)
         self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
-
         passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         passwordl.place(bordermode=OUTSIDE, x=465, y=15)
         self.epassword = Entry(self)
@@ -43,41 +48,28 @@ class StartPage(tk.Frame):
 
 
     def buttons(self, controller):
-
-        self.login_img = PhotoImage(file='..\Pic\\blogin.png')
         login = tk.Button(self, image=self.login_img, borderwidth=0, background='black'
                           , command = lambda: self.login_button(controller))
         login.place(bordermode=OUTSIDE, x=625, y=30)
-
-        self.register_img = PhotoImage(file='..\Pic\\bregister.png')
         register = tk.Button(self, image=self.register_img, borderwidth=0, background='black'
                              , command=lambda: self.register_button(controller))
         register.place(bordermode=OUTSIDE, x=500, y=350)
-
-        self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
         guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black'
                           , command=lambda: self.as_guest_button(controller))
         guest.place(bordermode=OUTSIDE, x=500, y=410)
 
 
     def as_guest_button(self, controller):
-
-        if sep.SearchPage in controller.frames:
-            controller.remove_frame(sep.SearchPage)
-        controller.add_frame(sep.SearchPage)
-        controller.show_frame(sep.SearchPage)
+        controller.manage_frame(sep.SearchPage)
 
 
     def register_button(self, controller):
-
-        if rp.RegisterPage in controller.frames:
-            controller.remove_frame(rp.RegisterPage)
-        controller.add_frame(rp.RegisterPage)
-        controller.show_frame(rp.RegisterPage)
+        controller.manage_frame(rp.RegisterPage)
 
 
     def login_button(self, controller):
-
+        # If the user clicks on the login button, contact the controller and check that there is indeed such
+        # a user, if so, send it to the user page.
         login = lc.LoginController(self.ename.get(), self.epassword.get()).has_user()
         if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 or not login:
             self.invalid = ovb.create_msg(self, 305, 65, 'Invalid username or password.')
@@ -90,11 +82,7 @@ class StartPage(tk.Frame):
             username = self.ename.get()
             password = self.epassword.get()
             self.clean_entrys()
-
-            if up.UserPage in controller.frames:
-                controller.remove_frame(up.UserPage)
-            controller.add_frame(up.UserPage)
-            controller.show_frame(up.UserPage)
+            controller.manage_frame(up.UserPage)
 
 
     def clean_entrys(self):
