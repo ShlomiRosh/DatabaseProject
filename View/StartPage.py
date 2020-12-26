@@ -21,13 +21,11 @@ class StartPage(tk.Frame):
         self.register_img = PhotoImage(file='..\Pic\\bregister.png')
         self.login_img = PhotoImage(file='..\Pic\\blogin.png')
         self.img = tk.PhotoImage(file='..\Pic\\startPic1.png')
-        # Here I declare the buttons, the widgets that will be on the page,
-        # later in the corresponding functions I will initialize them.
-        self.invalid, self.ename, self.epassword = None, None, None
+        self.invalid = None
         # In these functions I will create & place all of the components
         # in the appropriate places, and run logic according to the user's requirements.
         self.background()
-        self.input_output()
+        self.ename, self.epassword = self.input_output()
         self.buttons(controller)
 
 
@@ -39,12 +37,13 @@ class StartPage(tk.Frame):
     def input_output(self):
         namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         namel.place(bordermode=OUTSIDE, x=305, y=15)
-        self.ename = Entry(self)
-        self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
+        ename = Entry(self)
+        ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
         passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='yellow', font=FONT_OUTPUT)
         passwordl.place(bordermode=OUTSIDE, x=465, y=15)
-        self.epassword = Entry(self)
-        self.epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
+        epassword = Entry(self)
+        epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
+        return ename, epassword
 
 
     def buttons(self, controller):

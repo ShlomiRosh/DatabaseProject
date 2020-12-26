@@ -24,13 +24,13 @@ class UserPage(tk.Frame):
         self.img = tk.PhotoImage(file='..\Pic\\userpagePic2.png')
         # Here I declare the buttons, the widgets that will be on the page,
         # later in the corresponding functions I will initialize them.
-        self.invalid, self.hide_listb, self.show_listb, self.listbox, self.remove_itemb\
-        , self.information_itemb = None, None, None, None, None, None
+        self.invalid, self.listbox, self.remove_itemb\
+        , self.information_itemb = None, None, None, None
         # In these functions I will create & place all of the components
         # in the appropriate places, and run logic according to the user's requirements.
         self.background()
         self.input_output()
-        self.buttons(controller)
+        self.hide_listb, self.show_listb = self.buttons(controller)
 
 
     def background(self):
@@ -69,12 +69,13 @@ class UserPage(tk.Frame):
         logout_b = tk.Button(self, image=self.logout_img, borderwidth=0, background='black'
                              , command=lambda: self.log_out(controller))
         logout_b.place(bordermode=OUTSIDE, x=55, y=425)
-        self.hide_listb = tk.Button(self, image=self.hide_img, borderwidth=0, background='black'
+        hide_listb = tk.Button(self, image=self.hide_img, borderwidth=0, background='black'
                                       , command=self.hide_list_box)
-        self.hide_listb.place(bordermode=OUTSIDE, x=515, y=35)
-        self.show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
+        hide_listb.place(bordermode=OUTSIDE, x=515, y=35)
+        show_listb = tk.Button(self, image=self.show_img, borderwidth=0, background='black'
                                     , command=lambda : self.show_list_box(controller))
-        self.show_listb.place(bordermode=OUTSIDE, x=515, y=35)
+        show_listb.place(bordermode=OUTSIDE, x=515, y=35)
+        return hide_listb, show_listb
 
 
     def search_button(self, controller):

@@ -21,14 +21,13 @@ class RegisterPage(tk.Frame):
         self.home_img = PhotoImage(file='..\Pic\\bhome.png')
         self.register_img = PhotoImage(file='..\Pic\\bregister.png')
         self.img = tk.PhotoImage(file='..\Pic\\‏‏registerPic2.png')
-        # Here I declare the buttons, the widgets that will be on the page,
-        # later in the corresponding functions I will initialize them.
-        self.ename, self.epassword, self.efirst_name, self.elast_name\
-        , self.eemail, self.invalid = None, None, None, None, None, None
+        self.invalid = None
         # In these functions I will create & place all of the components
         # in the appropriate places, and run logic according to the user's requirements.
         self.background()
-        self.input_output()
+        # Init vars of input_output
+        self.ename, self.epassword, self.efirst_name, self.elast_name \
+        , self.eemail = self.input_output()
         self.buttons(controller)
 
     def background(self):
@@ -54,28 +53,29 @@ class RegisterPage(tk.Frame):
 
         namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         namel.place(bordermode=OUTSIDE, x=420, y=100)
-        self.ename = Entry(self)
-        self.ename.place(bordermode=OUTSIDE, x=510, y=95, width=200, height=25)
+        ename = Entry(self)
+        ename.place(bordermode=OUTSIDE, x=510, y=95, width=200, height=25)
 
         passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         passwordl.place(bordermode=OUTSIDE, x=420, y=150)
-        self.epassword = Entry(self)
-        self.epassword.place(bordermode=OUTSIDE, x=510, y=145, width=200, height=25)
+        epassword = Entry(self)
+        epassword.place(bordermode=OUTSIDE, x=510, y=145, width=200, height=25)
 
         first_namel = tk.Label(self, text='First Name:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         first_namel.place(bordermode=OUTSIDE, x=420, y=200)
-        self.efirst_name = Entry(self)
-        self.efirst_name.place(bordermode=OUTSIDE, x=510, y=195, width=200, height=25)
+        efirst_name = Entry(self)
+        efirst_name.place(bordermode=OUTSIDE, x=510, y=195, width=200, height=25)
 
         last_namel = tk.Label(self, text='Last Name:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         last_namel.place(bordermode=OUTSIDE, x=420, y=250)
-        self.elast_name = Entry(self)
-        self.elast_name.place(bordermode=OUTSIDE, x=510, y=245, width=200, height=25)
+        elast_name = Entry(self)
+        elast_name.place(bordermode=OUTSIDE, x=510, y=245, width=200, height=25)
 
         emaill = tk.Label(self, text='Email:', bg='black', bd=0, fg='white', font=FONT_OUTPUT)
         emaill.place(bordermode=OUTSIDE, x=420, y=300)
-        self.eemail = Entry(self)
-        self.eemail.place(bordermode=OUTSIDE, x=510, y=295, width=200, height=25)
+        eemail = Entry(self)
+        eemail.place(bordermode=OUTSIDE, x=510, y=295, width=200, height=25)
+        return ename, epassword, efirst_name, elast_name, eemail
 
 
     def buttons(self, controller):

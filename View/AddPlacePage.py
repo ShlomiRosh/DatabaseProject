@@ -15,14 +15,13 @@ class AddPlacePage(tk.Frame):
         self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
         self.add_img = PhotoImage(file='..\Pic\\badd.png')
         self.img = tk.PhotoImage(file='..\Pic\\addPlace1.png')
-        # Here I declare the buttons, the widgets that will be on the page,
-        # later in the corresponding functions I will initialize them.
-        self.places_namee, self.addresse, self.latitudee, self.longitudee, self.linke\
-        , self.descriptione, self.invalid = None, None, None, None, None, None, None
+        self.invalid = None
         # In these functions I will create & place all of the components
         # in the appropriate places, and run logic according to the user's requirements.
         self.background()
-        self.input_output()
+        # Init vars of input_output
+        self.places_namee, self.addresse, self.latitudee, self.longitudee, self.linke \
+            , self.descriptione = self.input_output()
         self.buttons(controller)
 
 
@@ -34,33 +33,34 @@ class AddPlacePage(tk.Frame):
     def input_output(self):
         places_namel = tk.Label(self, text='Place Name:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         places_namel.place(bordermode=OUTSIDE, x=30, y=30)
-        self.places_namee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.places_namee.place(bordermode=OUTSIDE, x=30, y=50, width=200, height=25)
+        places_namee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        places_namee.place(bordermode=OUTSIDE, x=30, y=50, width=200, height=25)
 
         addressl = tk.Label(self, text='Place Address:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         addressl.place(bordermode=OUTSIDE, x=30, y=80)
-        self.addresse = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.addresse.place(bordermode=OUTSIDE, x=30, y=100, width=200, height=25)
+        addresse = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        addresse.place(bordermode=OUTSIDE, x=30, y=100, width=200, height=25)
 
         latitudel = tk.Label(self, text='Place Latitude:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         latitudel.place(bordermode=OUTSIDE, x=270, y=30)
-        self.latitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.latitudee.place(bordermode=OUTSIDE, x=270, y=50, width=200, height=25)
+        latitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        latitudee.place(bordermode=OUTSIDE, x=270, y=50, width=200, height=25)
 
         longitudel = tk.Label(self, text='Place Longitude:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         longitudel.place(bordermode=OUTSIDE, x=270, y=80)
-        self.longitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.longitudee.place(bordermode=OUTSIDE, x=270, y=100, width=200, height=25)
+        longitudee = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        longitudee.place(bordermode=OUTSIDE, x=270, y=100, width=200, height=25)
 
         linkl = tk.Label(self, text='Link (Optional):', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         linkl.place(bordermode=OUTSIDE, x=510, y=30)
-        self.linke = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.linke.place(bordermode=OUTSIDE, x=510, y=50, width=200, height=25)
+        linke = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        linke.place(bordermode=OUTSIDE, x=510, y=50, width=200, height=25)
 
         descriptionl = tk.Label(self, text='Description (Optional):', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         descriptionl.place(bordermode=OUTSIDE, x=510, y=80)
-        self.descriptione = Entry(self, bg='#fdeca6', fg='blue', bd=0)
-        self.descriptione.place(bordermode=OUTSIDE, x=510, y=100, width=200, height=25)
+        descriptione = Entry(self, bg='#fdeca6', fg='blue', bd=0)
+        descriptione.place(bordermode=OUTSIDE, x=510, y=100, width=200, height=25)
+        return places_namee, addresse, latitudee, longitudee, linke, descriptione
 
 
     def buttons(self, controller):
