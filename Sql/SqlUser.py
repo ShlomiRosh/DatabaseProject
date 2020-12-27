@@ -45,3 +45,4 @@ class SqlUser:
                 return 'Deleted'
             except:
                 return 'Error'
+        return 'Error'

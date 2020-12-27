@@ -88,10 +88,8 @@ class StartPage(tk.Frame):
 
         self.ename.delete(0, 'end')
         self.epassword.delete(0, 'end')
-        try:
+        if self.invalid is not None:
             self.invalid.destroy()
-        except:
-            pass
 
 
 

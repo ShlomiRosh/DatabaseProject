@@ -6,7 +6,6 @@ class UserController:
 
     def __init__(self, username):
         self.username = username
-        self.user = e.User()
         self.places = []
 
     # Turns to SQL gets the user information and puts it into a suitable entity.
@@ -14,12 +13,8 @@ class UserController:
         raw_data = su.SqlUser(self.username).get_user_record()[0]
         if raw_data == 'Error':
             return 'Error Connection'
-        self.user.username = raw_data[0]
-        self.user.first_name = raw_data[1]
-        self.user.last_name = raw_data[2]
-        self.user.email = raw_data[3]
-        self.user.password = raw_data[4]
-        return self.user
+        user = e.User(raw_data[0], raw_data[1], raw_data[2], raw_data[3], raw_data[4])
+        return user
 
     # Turns to SQL asks for the user's favorite places list, puts them in a suitable entity,
     # returns this list to the display page.
@@ -27,18 +22,9 @@ class UserController:
         raw_data = su.SqlUser(self.username).get_user_places()
         if raw_data == 'Error':
             return 'Error Connection'
-
         for place in raw_data:
-            ins_place = e.Place()
-            ins_place.place_id = place[0]
-            ins_place.place_name = place[1]
-            ins_place.address = place[2]
-            ins_place.latitude = place[3]
-            ins_place.longitude = place[4]
-            ins_place.link = place[5]
-            ins_place.description = place[6]
-            ins_place.location_id = place[7]
-            ins_place.sub_category = place[8]
+            ins_place = e.Place(place[0], place[1], place[2], place[3], place[4], place[5],
+                                place[6], place[7], place[8])
             self.places.append(ins_place)
         return self.places
 
