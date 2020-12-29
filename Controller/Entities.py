@@ -31,3 +31,10 @@ class CompletePlace:
         self.city = city
         self.state = state
         self.category = category
+
+sub_category_to_num = {'AIRP': 51, 'AMUS': 21, 'ANS': 3, 'ART': 22, 'ATM': 15, 'BANK': 16, 'BCH': 32,
+ 'BCHS': 44, 'BDG': 53, 'BOT': 24, 'CH': 49, 'CMU': 26, 'CSNO': 20, 'CST': 47, 'CSTL': 6, 'FISH': 45,
+ 'FLLS': 38, 'GHSE': 13, 'GMU': 29, 'HSC': 30, 'HSP': 8, 'HST': 23, 'HTL': 11, 'LGN': 46, 'LK': 33,
+ 'MALL': 7, 'MKT': 12, 'ML': 48, 'MNMT': 1, 'MSQE': 50, 'MT': 31, 'NAT': 27, 'OBPT': 42, 'PKLT': 52,
+ 'PO': 14, 'PRK': 34, 'RECG': 17, 'RESF': 39, 'RESN': 35, 'REST': 9, 'RESW': 37, 'RF': 36, 'RFU': 54,
+ 'RHSE': 10, 'RKRY': 43, 'SCH': 40, 'SCI': 25, 'STDM': 18, 'THTR': 19, 'TMPL': 2, 'VLC': 41, 'ZAW': 28}

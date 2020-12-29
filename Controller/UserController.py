@@ -22,6 +22,8 @@ class UserController:
         raw_data = su.SqlUser(self.username).get_user_places()
         if raw_data == 'Error':
             return 'Error Connection'
+        if not len(raw_data):
+            return False
         for place in raw_data:
             ins_place = e.Place(place[0], place[1], place[2], place[3], place[4], place[5],
                                 place[6], place[7], place[8])
@@ -32,3 +34,4 @@ class UserController:
     def remove_place(self, place_id):
         res = su.SqlUser(self.username).del_places_record(place_id)
         return 'Deleted' if res == 'Deleted' else 'Error Connection'
+

@@ -20,10 +20,12 @@ class SqlUser:
                 return 'Error'
         return 'Error'
 
-    def get_user_places(self):
+    def get_user_places(self, columns = 'Places.*'):
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "SELECT DISTINCT Places.*  FROM Places JOIN `Users Places` USING(`Place ID`) "" \
+                # sql = "SELECT DISTINCT " + columns + " FROM Places JOIN `Users Places` USING(`Place ID`) "" \
+                #       ""WHERE `Users Places`.`User Name` = %s"
+                sql = "SELECT DISTINCT " + columns + " FROM Places JOIN `Users Places` USING(`Place ID`) "" \
                       ""WHERE `Users Places`.`User Name` = %s"
                 adr = (self.username,)
                 self.connection.my_cursor.execute(sql, adr)
