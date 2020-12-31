@@ -1,4 +1,5 @@
 from Sql import SqlSearch as sse
+from Controller import Entities as e
 
 
 def get_locations():
@@ -22,4 +23,8 @@ def get_location_id(state, city):
 def get_places(loc_id, sub_dict, categories_arr):
     places = sse.SqlSearch().get_places_query(loc_id, sub_dict, categories_arr)
     print(places)
-    return places
+    places_entities = []
+    for place in places:
+        places_entities.append(e.Place(place[0], place[1], place[2], place[3], place[4], place[5],
+                                       place[6], place[7], place[8]))
+    return places_entities

@@ -3,11 +3,12 @@ from Controller import Entities as e
 from mediawiki import MediaWiki
 import wikipedia
 
+
 # This module is responsible for the page result.
 class ResultController:
 
     def get_place_all_recorde(self, place_id):
-        #sro = sr.SqlResult(self.place_id)
+        # sro = sr.SqlResult(self.place_id)
         raw_data = sr.SqlResult().get_place_record(place_id)
         if raw_data == 'Error':
             return 'Error Connection'
@@ -17,7 +18,7 @@ class ResultController:
         if raw_data[6] == '':
             ins_place.description = self.init_description(ins_place)
             res = sr.SqlResult().insert_place_description(ins_place.description, place_id)
-            if res  == 'Error':
+            if res == 'Error':
                 return 'Error Connection'
         # Get all the other information about the place.
         raw_location = sr.SqlResult().get_location(raw_data[7])

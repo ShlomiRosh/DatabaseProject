@@ -43,6 +43,7 @@ class SearchPage(tk.Frame):
         self.initialize_categories(controller)
         self.initialize_user_buttons(controller)
         self.listbox = None
+
     # ----------------------------------------------- initialization --------------------------------------------------
     def load_background(self):
         pass
@@ -95,22 +96,31 @@ class SearchPage(tk.Frame):
     # ----------------------------------------------- user buttons! ---------------------------------------------------
 
     def add_place_on_click(self, controller):
+        self.clear_page()
         if app.AddPlacePage not in controller.frames:
             controller.add_frame(app.AddPlacePage)
         controller.show_frame(app.AddPlacePage)
 
     def go_back_on_click(self, controller):
-        # TODO self.clean_entrys()
-        # clear all sub categories and categories
-        for cat in self.categories_arr:
-            cat.clear()
-        # hide list of results
-        self.hide_list_box()
+        self.clear_page()
         # load next frame (user page)
         if up.UserPage in controller.frames:
             controller.remove_frame(up.UserPage)
         controller.add_frame(up.UserPage)
         controller.show_frame(up.UserPage)
+
+    def show_info(self, controller):
+        global place_id
+        place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
+        # user has not selected any place to show
+        if place_id is None:
+            self.invalid = ovb.create_msg(self, 310, 455, 'Please select place\n''from the list box.')
+        else:
+            # move to result page
+            if rp.ResultPage in controller.frames:
+                controller.remove_frame(rp.ResultPage)
+            controller.add_frame(rp.ResultPage)
+            controller.show_frame(rp.ResultPage)
 
     # -------------------------------------------------- search! ------------------------------------------------------
     def search_data_on_click(self, controller):
@@ -128,7 +138,9 @@ class SearchPage(tk.Frame):
         print(location_id)
         # send to controller to search
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
+        self.clear_checks()
         self.show_list_box(controller, places)
+
 
     def show_list_box(self, controller, places):
         self.create_listbox()
@@ -155,19 +167,18 @@ class SearchPage(tk.Frame):
                                            , command=lambda: self.show_info(controller))
         self.information_itemb.place(bordermode=OUTSIDE, x=300, y=420)
 
-    def show_info(self, controller):
-        global place_id
-        place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
-        if place_id is None:
-            self.invalid = ovb.create_msg(self, 310, 455, 'Please select place\n''from the list box.')
-        else:
-            if rp.ResultPage in controller.frames:
-                controller.remove_frame(rp.ResultPage)
-            controller.add_frame(rp.ResultPage)
-            controller.show_frame(rp.ResultPage)
-
     def insert_data_to_listbox(self, places):
         for item in places:
             print(item)
-            # self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
-            #                    + item.place_name.upper())
+            self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
+                                + item.place_name.upper())
+
+    def clear_checks(self):
+        # clear categories check boxes
+        for main in self.categories_arr:
+            main.clear()
+
+    def clear_page(self):
+        self.clear_checks()
+        # clear List
+        self.hide_list_box()
