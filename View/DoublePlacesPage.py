@@ -7,12 +7,13 @@ from Controller import DoublePlacesController as dpc
 from Controller import ResultController as rc
 import asyncio
 from View import OverViewButtons as ovb
+import threading
 
 FONT_LIST = ("Ariel", 10, "bold", "underline")
 FONT_OUTPUT = ("Ariel", 15, "bold")
 
 
-# This class is responsible for displaying the start page.
+# This class is responsible for displaying the DoublePlacesPage.
 class DoublePlacesPage(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -39,25 +40,23 @@ class DoublePlacesPage(tk.Frame):
     def input_output(self):
         self.canvas.create_text(535, 45, fill="red", font=FONT_OUTPUT,
                                 text="- Please wait it may take a few moments.")
-
         self.canvas.create_text(535, 65, fill="red", font=FONT_OUTPUT,
                                 text="- Please wait it may take a few moments.")
         self.canvas.create_text(535, 95, fill="red", font=FONT_OUTPUT,
                                 text="- Please wait it may take a few moments.")
-
-        #data1 = asyncio.run(dpc.DoublePlacesController(sp.username).get_neighbors())
-        data = dpc.DoublePlacesController(sp.username).get_neighbors()
-        listbox = Listbox(self,selectmode=MULTIPLE, activestyle='dotbox',
-                               font=FONT_LIST)
+        listbox = Listbox(self,selectmode=MULTIPLE, activestyle='dotbox', font=FONT_LIST)
         listbox.place(bordermode=OUTSIDE, x=30, y=30, height=400, width=310)
-
-        # Fill the listbox with items
-        for item in data:
-            listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
-                                + item.place_name.upper())
+        x = threading.Thread(target=self.thread_function)
+        x.start()
         return listbox
 
 
+    def thread_function(self):
+        data = dpc.DoublePlacesController(sp.username).get_neighbors()
+        # Fill the listbox with items
+        for item in data:
+            self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
+                           + item.place_name.upper())
 
     def buttons(self, controller):
         add = tk.Button(self, image=self.addf_img, borderwidth=0, background='black'
