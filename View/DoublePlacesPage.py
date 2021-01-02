@@ -5,7 +5,7 @@ from View import StartPage as sp
 from View import UserPage as up
 from Controller import DoublePlacesController as dpc
 from Controller import ResultController as rc
-import asyncio
+from tkinter import ttk
 from View import OverViewButtons as ovb
 import threading
 
@@ -25,7 +25,7 @@ class DoublePlacesPage(tk.Frame):
         # In these functions I will create & place all of the components
         # in the appropriate places, and run logic according to the user's requirements.
         self.canvas = self.background()
-        self.listbox = self.input_output()
+        self.listbox, self.progressbar = self.input_output()
         self.buttons(controller)
 
 
@@ -38,25 +38,24 @@ class DoublePlacesPage(tk.Frame):
 
 
     def input_output(self):
-        self.canvas.create_text(535, 45, fill="red", font=FONT_OUTPUT,
-                                text="- Please wait it may take a few moments.")
-        self.canvas.create_text(535, 65, fill="red", font=FONT_OUTPUT,
-                                text="- Please wait it may take a few moments.")
-        self.canvas.create_text(535, 95, fill="red", font=FONT_OUTPUT,
-                                text="- Please wait it may take a few moments.")
         listbox = Listbox(self,selectmode=MULTIPLE, activestyle='dotbox', font=FONT_LIST)
-        listbox.place(bordermode=OUTSIDE, x=30, y=30, height=400, width=310)
+        listbox.place(bordermode=OUTSIDE, x=30, y=47, height=385, width=310)
+        pb = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+        pb.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
+        pb.start()
         x = threading.Thread(target=self.thread_function)
         x.start()
-        return listbox
+        return listbox, pb
 
-
+    
     def thread_function(self):
         data = dpc.DoublePlacesController(sp.username).get_neighbors()
         # Fill the listbox with items
         for item in data:
             self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
                            + item.place_name.upper())
+        self.progressbar.destroy()
+
 
     def buttons(self, controller):
         add = tk.Button(self, image=self.addf_img, borderwidth=0, background='black'

@@ -9,7 +9,6 @@ from View import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
 FONT_LIST = ("Ariel", 10, "bold", "underline")
-place_id = None
 
 # This class is responsible for displaying the user page.
 class UserPage(tk.Frame):
@@ -171,9 +170,8 @@ class UserPage(tk.Frame):
 
     def show_info(self, controller):
         # the user wanted to see data about a place in his list, save the place's ID and move it to the appropriate page.
-        global place_id
-        place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
-        if place_id is None:
+        sp.place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
+        if sp.place_id is None:
             self.invalid = ovb.create_msg(self, 410, 455, 'Please select place\n''from the list box.')
         else:
             controller.manage_frame(rp.ResultPage)
