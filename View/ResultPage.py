@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
-from View import UserPage as up
+from View import SearchPage as sp
+from Controller import ResultController as rc
 
 FONT_NOTE = ("Ariel", 10, "bold", "underline")
 
@@ -8,73 +9,68 @@ FONT_NOTE = ("Ariel", 10, "bold", "underline")
 class ResultPage(tk.Frame):
 
     def __init__(self, parent, controller):
-        pass
-        tk.Frame.__init__(self, parent)
+        self.main_frame = tk.Frame.__init__(self, parent)
         self.background()
-        self.input()
         self.buttons(controller)
+        self.place_id = sp.place_id
+        self.complete_place = rc.ResultController().get_place_all_recorde(self.place_id)
+        print("place id from result page is: " + str(self.place_id))
+        self.show_results()
 
+    # ----------------------------------------------- initialization --------------------------------------------------
 
     def background(self):
-        pass
-        # self.img = tk.PhotoImage(file='..\Pic\\searchpagePic1.png')
-        # panel = tk.Label(self, image=self.img)
-        # panel.place(bordermode=OUTSIDE)
-
-
-    def input(self):
-        pass
-        # entry = acs.AutocompleteEntry(autocompleteList, self, listboxLength=10, width=50, matchesFunction=acs.matches)
-        # entry.place(bordermode=OUTSIDE, height=30, x=25, y=25)
-        # namel = tk.Label(self, text='User Name:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        # namel.place(bordermode=OUTSIDE, x=305, y=15)
-        # self.ename = Entry(self)
-        # self.ename.place(bordermode=OUTSIDE, x=305, y=35, width=150, height=25)
-        #
-        # passwordl = tk.Label(self, text='Password:', bg='black', bd=0, fg='blue', font=FONT_OUTPUT)
-        # passwordl.place(bordermode=OUTSIDE, x=465, y=15)
-        # self.epassword = Entry(self)
-        # self.epassword.place(bordermode=OUTSIDE, x=465, y=35, width=150, height=25)
-
+        self.img = tk.PhotoImage(file='..\Pic\\searchpagePic.png')
+        panel = tk.Label(self, image=self.img)
+        panel.place(bordermode=OUTSIDE)
 
     def buttons(self, controller):
-        pass
-        # C1 = Checkbutton(self, text="Music",
-        #                  onvalue=1, offvalue=0, bg='black', fg='blue')
-        # C1.place(bordermode=OUTSIDE, x=20, y=275)
-        # self.b1_img = PhotoImage(file='..\Pic\\logo.png')
-        # b1 = tk.Button(self, image=self.b1_img, borderwidth=0, background='black'
-        #                 , command=lambda : controller.show_frame(StartPage))
-        # b1.place(bordermode=OUTSIDE, x=20, y=20)
-        #
-        # self.login_img = PhotoImage(file='..\Pic\\blogin.png')
-        # login = tk.Button(self, image=self.login_img, borderwidth=0, background='black'
-        #                   , command = lambda: self.login_button(controller))
-        # login.place(bordermode=OUTSIDE, x=625, y=30)
-        #
-        # self.register_img = PhotoImage(file='..\Pic\\bregister.png')
-        # register = tk.Button(self, image=self.register_img, borderwidth=0, background='black')
-        # register.place(bordermode=OUTSIDE, x=500, y=350)
-        #
-        # self.guest_img = PhotoImage(file='..\Pic\\bguest.png')
-        # guest = tk.Button(self, image=self.guest_img, borderwidth=0, background='black')
-        # guest.place(bordermode=OUTSIDE, x=500, y=410)
+        # go back button
+        self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
+        back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='black'
+                         , command=lambda: self.go_back_on_click(controller))
+        back.place(bordermode=OUTSIDE, x=20, y=450)
 
+    def show_results(self):
+        self.results_frame = tk.Frame(self.main_frame, bg="RED", borderwidth=2)
 
-    def login_button(self, controller):
+        Grid.columnconfigure(self.results_frame, 0, weight=0)
+        Grid.columnconfigure(self.results_frame, 1, weight=0)
+        Grid.columnconfigure(self.results_frame, 2, weight=3)
+        Grid.columnconfigure(self.results_frame, 3, weight=3)
 
-        # if len(self.ename.get()) < 6 or len(self.epassword.get()) < 6 \
-        #         or not sql.has_record(self.ename.get(), self.epassword.get()):
-        #
-        #     invalid = tk.Label(self, text='Invalid username or password.'
-        #                        , bg='black', bd=0, fg='red', font=FONT_OUTPUT)
-        #     invalid.place(bordermode=OUTSIDE, x=305, y=65)
-        #
-        # else:
-        #
-        #     global registered, username, password
-        #     registered = True
-        #     username = self.ename.get()
-        #     password = self.epassword.get()
-        #     #controller.show_frame(sp.....)
-        pass
+        for y in range(4):
+            Grid.rowconfigure(self.results_frame, y, weight=1)
+        tk.Label(self.results_frame, text="Name: " + self.complete_place.place.place_name, borderwidth=1).grid(row=0, column=0, columnspan=4, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="State:\n" + self.complete_place.state, borderwidth=1).grid(row=1, column=0, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="City:\n" + self.complete_place.city, borderwidth=1).grid(row=2, column=0, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="Adress:\n" + self.complete_place.place.address, borderwidth=1,
+wraplength=300, justify="center").grid(row=3, column=0, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="Description:\n" + self.complete_place.place.description , borderwidth=1,
+wraplength=300, justify="center").grid(row=1, column=1, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+
+        tk.Label(self.results_frame, text="Rank The Place", borderwidth=1).grid(row=2, column=1, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="Average Rank Of the Place", borderwidth=1).grid(row=3, column=1, columnspan=1, sticky=N + S + E + W,
+                                                                   padx=5, pady=5)
+        tk.Label(self.results_frame, text="MAP", borderwidth=1).grid(row=1, column=2, columnspan=2, rowspan=3,
+                                                                     sticky=N + S + E + W, padx=5, pady=5)
+
+        self.results_frame.place(bordermode=OUTSIDE, x=20, y=20, height=400, width=710)
+
+    # ----------------------------------------------- click handlers --------------------------------------------------
+    def go_back_on_click(self, controller):
+        self.clear_page()
+        # load next frame (user page)
+        if sp.SearchPage in controller.frames:
+            controller.remove_frame(sp.SearchPage)
+        controller.add_frame(sp.SearchPage)
+        controller.show_frame(sp.SearchPage)
+
+    def clear_page(self):
+        self.results_frame.place_forget()
