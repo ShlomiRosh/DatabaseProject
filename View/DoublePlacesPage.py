@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk
-import time
 from View import StartPage as sp
 from View import UserPage as up
 from Controller import DoublePlacesController as dpc

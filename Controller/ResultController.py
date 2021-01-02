@@ -24,16 +24,21 @@ class ResultController:
         raw_location = sr.SqlResult().get_location(raw_data[7])
         if raw_location == 'Error':
             return 'Error Connection'
-        print(raw_location)
+        #print(raw_location)
         city, state = raw_location[0], raw_location[1]
 
         raw_category = sr.SqlResult().get_category(raw_data[8])
         if raw_category == 'Error':
             return 'Error Connection'
-        print(raw_category)
+        #print(raw_category)
         category = raw_category[0]
 
-        complete_place = e.CompletePlace(ins_place, city, state, category)
+        raw_rating = sr.SqlResult().get_rating(place_id)
+        if raw_rating == 'Error':
+            return 'Error Connection'
+        rating = raw_rating[0]
+        rating = str(int(rating)) if rating is not None else 'Not rated yet.'
+        complete_place = e.CompletePlace(ins_place, city, state, category, rating)
         return complete_place
 
     # Try to get a description of the place by contacting Wikipedia.

@@ -26,11 +26,12 @@ class Place:
 
 class CompletePlace:
 
-    def __init__(self, place, city, state, category):
+    def __init__(self, place, city, state, category, rating):
         self.place = place
         self.city = city
         self.state = state
         self.category = category
+        self.rating = rating
 
 sub_category_to_num = {'AIRP': 51, 'AMUS': 21, 'ANS': 3, 'ART': 22, 'ATM': 15, 'BANK': 16, 'BCH': 32,
  'BCHS': 44, 'BDG': 53, 'BOT': 24, 'CH': 49, 'CMU': 26, 'CSNO': 20, 'CST': 47, 'CSTL': 6, 'FISH': 45,

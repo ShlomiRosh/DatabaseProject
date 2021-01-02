@@ -61,9 +61,9 @@ class SqlResult:
     def insert_places_(self, places, username):
         if self.connection.connection_state == 'Connected':
             try:
-                param_num = '%s'
-                if type(places) == list:
-                    param_num = ','.join(["%s"] * len(places))
+                # param_num = '%s'
+                # if type(places) == list:
+                #     param_num = ','.join(["%s"] * len(places))
                 sql = "INSERT INTO `users places`(`User Name`, `Place ID`) VALUES (%s, %s)"
                 val = []
                 if type(places) == list:
@@ -75,6 +75,20 @@ class SqlResult:
                 self.connection.mydb.commit()
                 self.connection.close()
                 return 'Inserted'
+            except:
+                return 'Error'
+        return 'Error'
+
+    # Complex query, get average place ratings.
+    def get_rating(self, location_id):
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT AVG(Rating) FROM `users places` WHERE `Place ID` = %s"
+                adr = (location_id,)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchone()
+                self.connection.close()
+                return res
             except:
                 return 'Error'
         return 'Error'
