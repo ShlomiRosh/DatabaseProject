@@ -61,19 +61,17 @@ class SqlResult:
     def insert_places_(self, places, username):
         if self.connection.connection_state == 'Connected':
             try:
-                # param_num = '%s'
-                # if type(places) == list:
-                #     param_num = ','.join(["%s"] * len(places))
                 sql = "INSERT INTO `users places`(`User Name`, `Place ID`) VALUES (%s, %s)"
-                val = []
                 if type(places) == list:
+                    val = []
                     for i in places:
                         val.append((username, i))
+                        self.connection.my_cursor.executemany(sql, val)
                 else:
                     val = (username, places)
-                print(sql)
-                print(val)
-                self.connection.my_cursor.executemany(sql, val)
+                    print(sql)
+                    print(val)
+                    self.connection.my_cursor.execute(sql, val)
                 self.connection.mydb.commit()
                 self.connection.close()
                 return 'Inserted'
