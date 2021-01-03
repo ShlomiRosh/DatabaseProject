@@ -9,7 +9,7 @@ try:
                                                                   host='localhost',
                                                                   database='TripleA',
                                                                   user='root',
-                                                                  password='5678910')
+                                                                  password='Aryea182@')
 
 except:
     print('Error while connecting to MySQL using Connection pool')

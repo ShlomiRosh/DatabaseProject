@@ -71,6 +71,8 @@ class SqlResult:
                         val.append((username, i))
                 else:
                     val = (username, places)
+                print(sql)
+                print(val)
                 self.connection.my_cursor.executemany(sql, val)
                 self.connection.mydb.commit()
                 self.connection.close()
