@@ -1,5 +1,8 @@
+import threading
 from tkinter import *
 import tkinter as tk
+from tkinter import ttk
+
 from View import AutocompleteSearch as acs
 from View import AddPlacePage as app
 from Controller import SearchController as sc
@@ -43,6 +46,8 @@ class SearchPage(tk.Frame):
         self.initialize_categories(controller)
         self.initialize_user_buttons(controller)
         self.listbox = None
+        self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+
 
     # ----------------------------------------------- initialization --------------------------------------------------
     def load_background(self):
@@ -109,7 +114,16 @@ class SearchPage(tk.Frame):
         controller.add_frame(up.UserPage)
         controller.show_frame(up.UserPage)
 
+    # TODO fix show progress bar for moving to info page
     def show_info(self, controller):
+        self.progress_bar_result = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+        self.progress_bar_result.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
+        self.progress_bar_result.start()
+        self.thread_load_place_info = threading.Thread(target=self.thread_function_load_result_page(controller))
+        self.thread_load_place_info.start()
+
+
+    def thread_function_load_result_page(self, controller):
         global place_id
         place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
         # user has not selected any place to show
@@ -121,12 +135,19 @@ class SearchPage(tk.Frame):
                 controller.remove_frame(rp.ResultPage)
             controller.add_frame(rp.ResultPage)
             controller.show_frame(rp.ResultPage)
+        self.progress_bar_result.destroy()
 
     # -------------------------------------------------- search! ------------------------------------------------------
     def search_data_on_click(self, controller):
         # message of loading?
         # self.clean_entrys()
         print("loading....")
+        self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
+        self.progress_bar.start()
+        self.thread_basic_search = threading.Thread(target=self.thread_function_basic_search(controller))
+        self.thread_basic_search.start()
+
+    def thread_function_basic_search(self, controller):
         # get the city and state id
         state_city_strings = self.state_city.get().split(', ')
         state = state_city_strings[0]
@@ -140,6 +161,7 @@ class SearchPage(tk.Frame):
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
         self.clear_checks()
         self.show_list_box(controller, places)
+        self.progress_bar.destroy()
 
 
     def show_list_box(self, controller, places):

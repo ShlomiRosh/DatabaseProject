@@ -3,7 +3,6 @@ from Controller import Entities as e
 
 
 def get_locations():
-    pass
     locations = []
     raw_data = sse.SqlSearch().get_locations_schema()
     for location in raw_data:

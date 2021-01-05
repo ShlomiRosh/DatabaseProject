@@ -1,11 +1,9 @@
 import MySQLdb
-
+import asyncio
 from Sql import SqlConnection as sc
 
 
 class SqlSearch:
-    pass
-
     def __init__(self):
         self.connection = sc.SqlConnection()
         self.mycursor = self.connection.mydb.cursor()
@@ -13,7 +11,8 @@ class SqlSearch:
     def get_locations_schema(self):
         sql = "SELECT * FROM locations"
         self.mycursor.execute(sql)
-        return self.mycursor.fetchall()
+        results = self.mycursor.fetchall()
+        return results
 
     def get_location_id(self, state, city):
         print(state + " from sql")

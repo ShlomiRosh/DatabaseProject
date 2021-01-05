@@ -154,12 +154,13 @@ class ResultPage(tk.Frame):
 
     def save_place_on_click(self, controller):
         user = stp.username
-        if user != None:
+        if user != None and user != "":
             print(user)
             print("saving")
             result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
             print(result)
         else:
+            #TODO FIX THIS
             ovb.create_msg(self, 305, 65, 'only registered users can save places')
 
     def rank_on_click(self, controller):
