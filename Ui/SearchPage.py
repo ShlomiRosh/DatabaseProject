@@ -30,9 +30,6 @@ class SearchPage(tk.Frame):
         self.initialize_user_buttons(controller)
         self.listbox = None
 
-
-
-
     # ----------------------------------------------- initialization --------------------------------------------------
     def load_background(self):
         pass
@@ -57,13 +54,13 @@ class SearchPage(tk.Frame):
         category_frame.place(bordermode=OUTSIDE, x=20, y=105, width=710, height=25)
         # ----------------------------------------- create the categories :) ------------------------------------------
         for main_category_name_code in self.categories_dictionary:
-            new_main = MainCategory(controller, category_frame, main_category_name_code, self.categories_dictionary[main_category_name_code])
+            new_main = MainCategory(controller, category_frame, main_category_name_code,
+                                    self.categories_dictionary[main_category_name_code])
             self.categories_arr.append(new_main)
         # pack
         for main_category in self.categories_arr:
             main_category.check_button.pack(side=LEFT, fill=BOTH, expand=True)
             main_category.initialize_sub_categories(controller)
-
 
     def initialize_user_buttons(self, controller):
         # ---------------------------------------------- user butons -------------------------------------------------
@@ -77,6 +74,10 @@ class SearchPage(tk.Frame):
         self.add_place = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
                                    , command=lambda: self.add_place_on_click(controller))
         self.add_place.place(bordermode=OUTSIDE, x=580, y=450)
+        add_info_label = tk.Label(self, text="Add Places You Couldn't Find by Pressing Add", bg='black', bd=0,
+                                  fg='yellow',
+                                  font=FONT_OUTPUT, wraplength=200, justify='center')
+        add_info_label.place(bordermode=OUTSIDE, x=530, y=45)
         # go back button
         self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
         back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='black'
@@ -86,7 +87,6 @@ class SearchPage(tk.Frame):
     # ----------------------------------------------- user buttons! ---------------------------------------------------
 
     def add_place_on_click(self, controller):
-        # TODO add message to user about the functionality of this button
         self.clear_page()
         if app.AddPlacePage not in controller.frames:
             controller.add_frame(app.AddPlacePage)
@@ -100,14 +100,12 @@ class SearchPage(tk.Frame):
         controller.add_frame(up.UserPage)
         controller.show_frame(up.UserPage)
 
-    # TODO fix show progress bar for moving to info page
     def show_info(self, controller):
         self.progress_bar_result = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar_result.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar_result.start()
-        self.thread_load_place_info = threading.Thread(target=self.thread_function_load_result_page(controller))
+        self.thread_load_place_info = threading.Thread(target=lambda: self.thread_function_load_result_page(controller))
         self.thread_load_place_info.start()
-
 
     def thread_function_load_result_page(self, controller):
         global place_id
@@ -135,7 +133,7 @@ class SearchPage(tk.Frame):
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()
-        self.thread_basic_search = threading.Thread(target= lambda : self.thread_function_basic_search(controller))
+        self.thread_basic_search = threading.Thread(target=lambda: self.thread_function_basic_search(controller))
         self.thread_basic_search.start()
 
     def thread_function_basic_search(self, controller):
@@ -153,8 +151,6 @@ class SearchPage(tk.Frame):
         self.clear_checks()
         self.progress_bar.destroy()
         self.show_list_box(controller, places)
-
-
 
     def show_list_box(self, controller, places):
         self.create_listbox()

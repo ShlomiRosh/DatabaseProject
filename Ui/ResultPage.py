@@ -19,7 +19,6 @@ class ResultPage(tk.Frame):
         self.buttons(controller)
         self.place_id = sp.place_id
         self.categories_dictionary = entities.categories_dictionary
-        # TODO different thread
         self.complete_place = rc.ResultController().get_place_all_recorde(self.place_id)
         print("place id from result page is: " + str(self.place_id))
         self.show_results(controller)
@@ -199,3 +198,5 @@ class ResultPage(tk.Frame):
 
     def get_rank(self):
         return self.user_rank.get()
+
+

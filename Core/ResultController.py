@@ -64,7 +64,6 @@ class ResultController:
         return description
 
     def add_places_to_user_places(self, places, username):
-        # TODO need to check if the place already exists?~?!?!
         return sr.SqlResult().insert_places_(places, username)
 
 
