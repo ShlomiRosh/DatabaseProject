@@ -1,8 +1,8 @@
 from tkinter import *
 import tkinter as tk
-from View import SearchPage as sep
-from Controller import AddPlaceController as apc
-from View import OverViewButtons as ovb
+from Ui import SearchPage as sep
+from Core import AddPlaceController as apc
+from Ui import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10, "underline")
 FONT_TY = ("Ariel", 15, "bold")
@@ -29,7 +29,7 @@ class AddPlacePage(tk.Frame):
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
-
+    # TODO add sub category
     def input_output(self):
         places_namel = tk.Label(self, text='Place Name:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         places_namel.place(bordermode=OUTSIDE, x=30, y=30)
@@ -77,7 +77,7 @@ class AddPlacePage(tk.Frame):
     def add_button(self, controller):
         if self.invalid is not None:
             self.invalid.destroy()
-
+        # TODO place exists needs to be in another thread
         pe = apc.place_exists(self.places_namee.get(), self.addresse.get())
         if pe == 'Error Connection':
             self.invalid = ovb.create_msg(self, 575, 200, 'Error occurred while\n''accessing database.')

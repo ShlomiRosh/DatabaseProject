@@ -1,5 +1,5 @@
-from Sql import SqlSearch as sse
-from Controller import Entities as e
+from Db import SqlSearch as sse
+from Core import Entities as e
 
 
 def get_locations():

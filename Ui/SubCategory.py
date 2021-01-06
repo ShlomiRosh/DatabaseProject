@@ -1,4 +1,4 @@
-from View.Category import Category, OUTSIDE
+from Ui.Category import Category, OUTSIDE
 
 
 class SubCategory(Category):

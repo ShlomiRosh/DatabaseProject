@@ -1,6 +1,6 @@
-from Sql import SqlDoublePlaces as sdp
-from Sql import SqlUser as su
-from Controller import Entities as e
+from Db import SqlDoublePlaces as sdp
+from Db import SqlUser as su
+from Core import Entities as e
 from sklearn.neighbors import NearestCentroid
 import pandas as pd
 

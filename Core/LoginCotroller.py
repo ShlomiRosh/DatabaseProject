@@ -1,4 +1,4 @@
-from Sql import SqlLogin as sl
+from Db import SqlLogin as sl
 
 # This class is responsible for the page Login.
 class LoginController:

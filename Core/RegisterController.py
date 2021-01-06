@@ -1,4 +1,4 @@
-from Sql import SqlRegister as sr
+from Db import SqlRegister as sr
 # This module is responsible for the page register.
 
 # Returns the number of registered users by accessing SQL.

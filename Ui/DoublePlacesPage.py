@@ -1,11 +1,11 @@
 from tkinter import *
 import tkinter as tk
-from View import StartPage as sp
-from View import UserPage as up
-from Controller import DoublePlacesController as dpc
-from Controller import ResultController as rc
+from Ui import StartPage as sp
+from Ui import UserPage as up
+from Core import DoublePlacesController as dpc
+from Core import ResultController as rc
 from tkinter import ttk
-from View import OverViewButtons as ovb
+from Ui import OverViewButtons as ovb
 import threading
 
 FONT_LIST = ("Ariel", 10, "bold", "underline")

@@ -1,4 +1,4 @@
-from Sql import SqlConnection as sc
+from Db import SqlConnection as sc
 
 # This class performs queries for the class ResultController.
 class SqlResult:

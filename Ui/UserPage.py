@@ -1,11 +1,11 @@
 from tkinter import *
 import tkinter as tk
-from View import SearchPage as sp
-from View import StartPage as st
-from View import ResultPage as rp
-from View import DoublePlacesPage as dpp
-from Controller import UserController as uc
-from View import OverViewButtons as ovb
+from Ui import SearchPage as sp
+from Ui import StartPage as st
+from Ui import ResultPage as rp
+from Ui import DoublePlacesPage as dpp
+from Core import UserController as uc
+from Ui import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
 FONT_LIST = ("Ariel", 10, "bold", "underline")

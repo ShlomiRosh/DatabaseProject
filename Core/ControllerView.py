@@ -1,5 +1,5 @@
 import tkinter as tk
-from View import StartPage as sp
+from Ui import StartPage as sp
 
 WIN_SIZE = '750x500+50+20'
 TITLE = 'TripleA'
@@ -47,3 +47,4 @@ application.resizable(False, False)
 application.title(TITLE)
 application.iconbitmap('..\Pic\\family.ico')
 application.mainloop()
+# TODO kill threads in system

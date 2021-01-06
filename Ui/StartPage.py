@@ -1,10 +1,10 @@
 from tkinter import *
 import tkinter as tk
-from View import RegisterPage as rp
-from View import SearchPage as sep
-from View import UserPage as up
-from Controller import LoginCotroller as lc
-from View import OverViewButtons as ovb
+from Ui import RegisterPage as rp
+from Ui import SearchPage as sep
+from Ui import UserPage as up
+from Core import LoginCotroller as lc
+from Ui import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
 registered = False

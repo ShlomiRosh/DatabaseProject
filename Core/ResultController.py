@@ -1,5 +1,5 @@
-from Sql import SqlResult as sr
-from Controller import Entities as e
+from Db import SqlResult as sr
+from Core import Entities as e
 from mediawiki import MediaWiki
 import wikipedia
 

@@ -3,10 +3,10 @@ import tkinter as tk
 import re
 import random
 import string
-from View import StartPage as st
-from View import OverViewButtons as ovb
-from View import UserPage as up
-from Controller import RegisterController as rc
+from Ui import StartPage as st
+from Ui import OverViewButtons as ovb
+from Ui import UserPage as up
+from Core import RegisterController as rc
 
 FONT_CREATE = ("Ariel", 16, "bold")
 FONT_OUTPUT = ("Ariel", 9)

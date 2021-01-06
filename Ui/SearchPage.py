@@ -3,13 +3,14 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 
-from View import AutocompleteSearch as acs
-from View import AddPlacePage as app
-from Controller import SearchController as sc
-from View import UserPage as up
-from View import ResultPage as rp
-from View import OverViewButtons as ovb
-from View.MainCategory import MainCategory
+from Ui import AutocompleteSearch as acs
+from Ui import AddPlacePage as app
+from Core import SearchController as sc
+from Ui import UserPage as up
+from Ui import ResultPage as rp
+from Ui import OverViewButtons as ovb
+from Ui.MainCategory import MainCategory
+from Core import Entities as entities
 
 place_id = None
 location_id = None
@@ -21,25 +22,7 @@ autocompleteList = sc.get_locations()
 class SearchPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.categories_dictionary = {
-            ("NTRL", "Nature"): [("BCH", "Beach"), ("BCHS", "Beaches"), ("CST", "Coast"), ("FISH", "Fish"),
-                                 ("FLLS", "Waterfalls"), ("LGN", "Lagona"), ("LK", "Lake"), ("MT", "Mountain"),
-                                 ("OBPT", "Obsercation Point"), ("PRK", "Park"), ("RESF", "Forest Reserve"),
-                                 ("RESN", "Nature Reserve"), ("RESW", "Wildlife Reserve"), ("RF", "Reef")],
-            ("HSTRY", "History"): [("ANS", "History Site"), ("ART", "Piece Of Art"), ("CSTL", "Castle"),
-                                   ("MNMT", "Monument"),
-                                   ("SCH", "Sch?"), ("TMPL", "Temple")],
-            ("FNNC", "Financial"): [("ATM", "Atm - Machine"), ("BANK", "Bank"), ("PO", "Post Office")],
-            ("MUSE", "Museums"): [("BOT", "Botanical"), ("CMU", "Children's"), ("GMU", "General"),
-                                  ("HSC", "Preservation"),
-                                  ("HST", "History"), ("NAT", "Natural"), ("SCI", "Science & Tech"), ("ZAW", "Zoo")],
-            ("FUN", "Fun"): [("RECG", "Golf"), ("STDM", "Stadium"), ("THTR", "Theatre")],
-            ("TRNSPT", "Transportation"): [("AIRP", "Airport"), ("BDG", "Building"), ("PKLT", "Parking Lot"),
-                                           ("RFU", "Something????")],
-            ("COMRC", "Commercial"): [("GHSE", "Guest House"), ("HSP", "Hospital"), ("HTL", "Hotel"), ("MALL", "Mall"),
-                                      ("MKT", "Market"), ("REST", "Restaurant"), ("RHSE", "Rest House")],
-            ("RLGN", "Religion"): [("CH", "Churches"), ("MSQE", "Mosque")]
-        }
+        self.categories_dictionary = entities.categories_dictionary
         self.categories_arr = []
         self.load_background()
         self.initialize_search_bar()
@@ -47,6 +30,7 @@ class SearchPage(tk.Frame):
         self.initialize_user_buttons(controller)
         self.listbox = None
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+
 
 
     # ----------------------------------------------- initialization --------------------------------------------------
@@ -80,6 +64,7 @@ class SearchPage(tk.Frame):
             main_category.check_button.pack(side=LEFT, fill=BOTH, expand=True)
             main_category.initialize_sub_categories(controller)
 
+
     def initialize_user_buttons(self, controller):
         # ---------------------------------------------- user butons -------------------------------------------------
         # search button
@@ -101,6 +86,7 @@ class SearchPage(tk.Frame):
     # ----------------------------------------------- user buttons! ---------------------------------------------------
 
     def add_place_on_click(self, controller):
+        # TODO add message to user about the functionality of this button
         self.clear_page()
         if app.AddPlacePage not in controller.frames:
             controller.add_frame(app.AddPlacePage)
@@ -141,6 +127,7 @@ class SearchPage(tk.Frame):
     def search_data_on_click(self, controller):
         # message of loading?
         # self.clean_entrys()
+        # TODO check if the input is valid location in autocomplete places...
         print("loading....")
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()

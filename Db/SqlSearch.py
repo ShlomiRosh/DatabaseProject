@@ -1,6 +1,6 @@
 import MySQLdb
 import asyncio
-from Sql import SqlConnection as sc
+from Db import SqlConnection as sc
 
 
 class SqlSearch:
@@ -36,6 +36,7 @@ class SqlSearch:
         if self.connection.connection_state == 'Connected':
             print("the connection status is connected from search sql")
             try:
+                # TODO check if only main category is checked
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s"
                 adr = []
                 adr.append(loc_id)

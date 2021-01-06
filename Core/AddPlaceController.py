@@ -1,5 +1,5 @@
-from Sql import SqlAddPlace as sap
-from Controller import Entities as e
+from Db import SqlAddPlace as sap
+from Core import Entities as e
 # This module is responsible for the page Add Place.
 
 # Gets a place name, communicates with the SQL and returns an answer depending on the result.

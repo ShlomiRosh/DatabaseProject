@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk
-from View.Category import Category
-from View.SubCategory import SubCategory
+from Ui.Category import Category
+from Ui.SubCategory import SubCategory
 
 
 class MainCategory(Category):
@@ -19,8 +19,9 @@ class MainCategory(Category):
     def on_click(self, controller):
         if self.check_var.get():
             print(self.name + " is checked")
-            lv_x = self.check_button.winfo_rootx()
-            lv_y = self.check_button.winfo_rooty()
+            x_dictionary = {"Nature":20, "History":100, "Financial":180, "Museums":270, "Fun":360, "Transportation":430, "Commercial":550, "Religion":650}
+            lv_x = x_dictionary[self.name]
+            lv_y = 135
             self.sub_frame.place(bordermode=OUTSIDE, x=lv_x, y=lv_y)
             for sub_category in self.sub_checks_arr:
                 sub_category.check_button.pack(side=BOTTOM, fill=BOTH, expand=True)

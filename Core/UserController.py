@@ -1,5 +1,5 @@
-from Sql import SqlUser as su
-from Controller import Entities as e
+from Db import SqlUser as su
+from Core import Entities as e
 
 # This module is responsible for the page user.
 class UserController:
