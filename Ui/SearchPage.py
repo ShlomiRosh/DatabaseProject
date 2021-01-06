@@ -135,7 +135,7 @@ class SearchPage(tk.Frame):
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()
-        self.thread_basic_search = threading.Thread(target=self.thread_function_basic_search(controller))
+        self.thread_basic_search = threading.Thread(target= lambda : self.thread_function_basic_search(controller))
         self.thread_basic_search.start()
 
     def thread_function_basic_search(self, controller):
@@ -151,8 +151,9 @@ class SearchPage(tk.Frame):
         # send to controller to search
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
         self.clear_checks()
-        self.show_list_box(controller, places)
         self.progress_bar.destroy()
+        self.show_list_box(controller, places)
+
 
 
     def show_list_box(self, controller, places):
