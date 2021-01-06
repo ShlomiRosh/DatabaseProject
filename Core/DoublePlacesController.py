@@ -14,7 +14,6 @@ class DoublePlacesController:
 
     def get_neighbors(self):
         # Get raw data for the NearestCentroid algorithm.
-        #user_places = self.get_user_places('``, ``')
         raw_user_places = su.SqlUser(self.username).get_user_places()
         if raw_user_places == 'Error':
             return 'Error Connection'
@@ -36,6 +35,7 @@ class DoublePlacesController:
         rest_places = rest_places[rest_places['Sub Category'].isin(list(dict.fromkeys(user_places['Sub Category'].tolist())))]
         user_places["Sub Category"] = user_places["Sub Category"].map(e.sub_category_to_num)
         rest_places["Sub Category"] = rest_places["Sub Category"].map(e.sub_category_to_num)
+        rest_places = rest_places.groupby('Sub Category').head(3500)
         # Prepare the parameters for the algorithm and run it.
         features = list(rest_places.drop('Place ID', axis=1, inplace=False))
         y = rest_places["Place ID"]
