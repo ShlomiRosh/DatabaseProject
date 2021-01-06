@@ -6,13 +6,6 @@ from Ui import StartPage as stp
 from Core import ResultController as rc
 from Ui import OverViewButtons as ovb
 from Core import Entities as entities
-
-import matplotlib.pyplot as plt
-import pandas as pd
-import io
-import requests
-import urllib.request
-from PIL import Image
 import webbrowser
 
 FONT_NOTE = ("Ariel", 10, "bold", "underline")
@@ -149,8 +142,9 @@ class ResultPage(tk.Frame):
                                           "1",
                                           "2",
                                           "3",
-                                          "4", "5", "6", "7", "8", "9", "10"]).pack(padx=2,
-                                                                                    pady=2)
+                                          "4", "5", "6", "7", "8", "9", "10"])
+        self.user_rank.pack(padx=2, pady=2)
+        self.user_rank.bind("<<ComboboxSelected>>", self.get_rank())
         tk.Button(self.rank_frame, text="Rank!", borderwidth=2,
                   command=lambda: self.rank_on_click(controller)).pack(padx=2,
                                                                        pady=2)
@@ -181,12 +175,17 @@ class ResultPage(tk.Frame):
             result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
             print(result)
         else:
-            # TODO FIX THIS
-            ovb.create_msg(self, 305, 65, 'only registered users can save places')
+            ovb.create_msg(self, 100, 450, 'only registered users can save places')
 
     def rank_on_click(self, controller):
         # TODO NOW!
-        pass
+        user = stp.username
+        if self.get_rank():
+            print("the rank is ranking now is: " + self.get_rank())
+            result = rc.ResultController().rank_place(self.get_rank(), self.complete_place.place.place_id, user)
+            print(result)
+        else:
+            ovb.create_msg(self, 200, 450, 'please select a rank first between 1-10')
 
     def open_map(self, controller, coordinates):
         request = "http://maps.google.com/maps?q="
@@ -201,3 +200,6 @@ class ResultPage(tk.Frame):
 
     def clear_page(self):
         self.results_frame.place_forget()
+
+    def get_rank(self):
+        return self.user_rank.get()

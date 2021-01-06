@@ -64,4 +64,9 @@ class ResultController:
         return description
 
     def add_places_to_user_places(self, places, username):
+        # TODO need to check if the place already exists?~?!?!
         return sr.SqlResult().insert_places_(places, username)
+
+
+    def rank_place(self, rating, place_id, username):
+        return sr.SqlResult().rank_place(rating, place_id, username)
