@@ -20,7 +20,6 @@ class ResultPage(tk.Frame):
         self.place_id = sp.place_id
         self.categories_dictionary = entities.categories_dictionary
         self.complete_place = rc.ResultController().get_place_all_recorde(self.place_id)
-        print("place id from result page is: " + str(self.place_id))
         self.show_results(controller)
 
     # ----------------------------------------------- initialization --------------------------------------------------
@@ -64,10 +63,6 @@ class ResultPage(tk.Frame):
         category=""
         sub_category=""
         for key in self.categories_dictionary:
-            print(key)
-            print(key[0])
-            print(key[1])
-            print(self.complete_place.category)
             if self.complete_place.category == key[0]:
                 category=key[1]
                 for sub in self.categories_dictionary[key]:
@@ -174,6 +169,7 @@ class ResultPage(tk.Frame):
             ovb.create_msg(self, 100, 450, 'only registered users can save places')
 
     def rank_on_click(self, controller):
+        # TODO check if user listed
         user = stp.username
         if self.get_rank():
             print("the rank is ranking now is: " + self.get_rank())

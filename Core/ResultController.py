@@ -54,7 +54,6 @@ class ResultController:
                 summary = wikipedia.summary(summary, sentences=2)
             except:
                 summary = ''
-        print(summary)
         # TODO Resize the description column in the database to 520 characters!!!
         # The description column in the database must be at most 520 characters long.
         if summary == '':

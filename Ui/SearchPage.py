@@ -129,10 +129,10 @@ class SearchPage(tk.Frame):
         if not self.state_city.get() in autocompleteList:
             ovb.create_msg(self, 200, 450, 'this place is not in our data base, please try again...')
             return
-        print("loading....")
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()
+        # TODO add another complex query of group by
         self.thread_basic_search = threading.Thread(target=lambda: self.thread_function_basic_search(controller))
         self.thread_basic_search.start()
 
@@ -141,21 +141,19 @@ class SearchPage(tk.Frame):
         state_city_strings = self.state_city.get().split(', ')
         state = state_city_strings[0]
         city = state_city_strings[1]
-        print(state)
-        print(city)
         # get category id
         location_id = sc.get_location_id(state, city)[0][0]
-        print(location_id)
         # send to controller to search
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
         self.clear_checks()
-        self.progress_bar.destroy()
+
         self.show_list_box(controller, places)
 
     def show_list_box(self, controller, places):
         self.create_listbox()
-        self.create_listbox_buttons(controller)
         self.insert_data_to_listbox(places)
+        self.create_listbox_buttons(controller)
+
 
     def hide_list_box(self):
         if self.listbox:
@@ -165,7 +163,7 @@ class SearchPage(tk.Frame):
     def create_listbox(self):
         self.listbox = Listbox(self, bg='black', activestyle='dotbox',
                                font=FONT_LIST, fg="yellow")
-        self.listbox.place(bordermode=OUTSIDE, x=20, y=140, height=270, width=710)
+
         scrollbar = Scrollbar(self.listbox, orient="vertical")
         scrollbar.config(command=self.listbox.yview)
         scrollbar.pack(side="right", fill="y")
@@ -179,9 +177,10 @@ class SearchPage(tk.Frame):
 
     def insert_data_to_listbox(self, places):
         for item in places:
-            print(item)
             self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
                                 + item.place_name.upper())
+        self.listbox.place(bordermode=OUTSIDE, x=20, y=140, height=270, width=710)
+        self.progress_bar.destroy()
 
     def clear_checks(self):
         # clear categories check boxes

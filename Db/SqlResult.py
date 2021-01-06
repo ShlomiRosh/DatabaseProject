@@ -69,8 +69,6 @@ class SqlResult:
                         self.connection.my_cursor.executemany(sql, val)
                 else:
                     val = (username, places)
-                    print(sql)
-                    print(val)
                     self.connection.my_cursor.execute(sql, val)
                 self.connection.mydb.commit()
                 self.connection.close()

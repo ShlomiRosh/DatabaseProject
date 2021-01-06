@@ -15,10 +15,7 @@ class SqlSearch:
         return results
 
     def get_location_id(self, state, city):
-        print(state + " from sql")
-        print(city + " from sql")
         if self.connection.connection_state == 'Connected':
-            print("the connection status is connected from search sql")
             try:
                 sql = "SELECT `Location ID` FROM Locations WHERE Locations.`State` LIKE %s AND Locations.`City/Region` LIKE %s"
                 adr = (state, city,)
@@ -34,7 +31,6 @@ class SqlSearch:
     # basic query for places
     def get_places_query(self, loc_id, sub_dict, categories_arr):
         if self.connection.connection_state == 'Connected':
-            print("the connection status is connected from search sql")
             try:
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s"
                 adr = []
