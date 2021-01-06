@@ -178,7 +178,6 @@ class ResultPage(tk.Frame):
             ovb.create_msg(self, 100, 450, 'only registered users can save places')
 
     def rank_on_click(self, controller):
-        # TODO NOW!
         user = stp.username
         if self.get_rank():
             print("the rank is ranking now is: " + self.get_rank())

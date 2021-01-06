@@ -13,7 +13,6 @@ class SqlDoublePlaces:
             try:
                 # param_num = ','.join(["%s"]*len(places_id))
                 # sql = "SELECT Places.* FROM Places WHERE Places.`Place ID` not IN(" + param_num + ")"
-                # TODO Check if this query is complex....
                 sql = "SELECT Places.* FROM Places WHERE `Place ID` NOT IN(SELECT `Place ID` " \
                        "FROM `Users Places` WHERE `Users Places`.`User Name` LIKE %s)"
                 adr = (self.username,)
