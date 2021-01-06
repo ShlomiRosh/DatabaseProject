@@ -74,10 +74,7 @@ class ResultPage(tk.Frame):
                 for sub in self.categories_dictionary[key]:
                     if sub[0] == self.complete_place.place.sub_category:
                         sub_category = sub[1]
-        tk.Label(self.name_frame, text="Category: " + category, borderwidth=1,
-                 font="verdana 8 bold").pack(padx=2,
-                                              pady=2)
-        tk.Label(self.name_frame, text="Sub Category: " + sub_category, borderwidth=1,
+        tk.Label(self.name_frame, text="Category: " + category + ", Sub Category: " + sub_category, borderwidth=1,
                  font="verdana 8 bold").pack(padx=2,
                                               pady=2)
         self.name_frame.grid(row=0,
@@ -122,7 +119,7 @@ class ResultPage(tk.Frame):
         tk.Label(self.description_frame, text="Description:", borderwidth=1, font="verdana 13 bold").pack(padx=2,
                                                                                                           pady=2)
         tk.Label(self.description_frame, text=self.complete_place.place.description, borderwidth=1,
-                 wraplength=300, justify="center").pack(padx=2,
+                 wraplength=400, justify="center").pack(padx=2,
                                                         pady=2)
         tk.Button(self.description_frame, text="Google Search Link", borderwidth=2,
                   command=lambda: self.google_link(controller, coordinates)).pack(padx=2,

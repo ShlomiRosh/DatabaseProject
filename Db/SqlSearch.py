@@ -36,15 +36,31 @@ class SqlSearch:
         if self.connection.connection_state == 'Connected':
             print("the connection status is connected from search sql")
             try:
-                # TODO check if only main category is checked
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s"
                 adr = []
                 adr.append(loc_id)
                 for cat_check in categories_arr:
+                    first = True
                     for sub_check in cat_check.sub_checks_arr:
                         if sub_check and sub_check.check_var.get():
-                            sql += " AND Places.`Sub Category` LIKE %s"
-                            adr.append(sub_check.code)
+                            if first:
+                                sql += " AND Places.`Sub Category` LIKE %s"
+                                adr.append(sub_check.code)
+                                first = False
+                            else:
+                                sql += " OR Places.`Sub Category` LIKE %s"
+                                adr.append(sub_check.code)
+                    # if only main category is checked - get all subs
+                    if first and cat_check.check_var.get():
+                        first_b = True
+                        for sub_check in cat_check.sub_checks_arr:
+                            if first_b:
+                                sql += " AND Places.`Sub Category` LIKE %s"
+                                adr.append(sub_check.code)
+                                first_b = False
+                            else:
+                                sql += " OR Places.`Sub Category` LIKE %s"
+                                adr.append(sub_check.code)
                 print(sql)
                 print(adr)
                 self.connection.my_cursor.execute(sql, adr)

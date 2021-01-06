@@ -29,7 +29,7 @@ class SearchPage(tk.Frame):
         self.initialize_categories(controller)
         self.initialize_user_buttons(controller)
         self.listbox = None
-        self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+
 
 
 
@@ -127,8 +127,12 @@ class SearchPage(tk.Frame):
     def search_data_on_click(self, controller):
         # message of loading?
         # self.clean_entrys()
-        # TODO check if the input is valid location in autocomplete places...
+        # check if the input is valid location in autocomplete places...
+        if not self.state_city.get() in autocompleteList:
+            ovb.create_msg(self, 200, 450, 'this place is not in our data base, please try again...')
+            return
         print("loading....")
+        self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()
         self.thread_basic_search = threading.Thread(target=self.thread_function_basic_search(controller))
