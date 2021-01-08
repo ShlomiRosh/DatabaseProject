@@ -133,7 +133,6 @@ class SearchPage(tk.Frame):
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar.start()
-        # TODO add another complex query of group by
         self.thread_basic_search = threading.Thread(target=lambda: self.thread_function_basic_search(controller))
         self.thread_basic_search.setDaemon(True)
         self.thread_basic_search.start()
@@ -146,16 +145,16 @@ class SearchPage(tk.Frame):
         # get category id
         location_id = sc.get_location_id(state, city)[0][0]
         # send to controller to search
+        # TODO add another complex query of group by
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
+        statistics = sc.get_statistics(location_id)
         self.clear_checks()
-
         self.show_list_box(controller, places)
 
     def show_list_box(self, controller, places):
         self.create_listbox()
         self.insert_data_to_listbox(places)
         self.create_listbox_buttons(controller)
-
 
     def hide_list_box(self):
         if self.listbox:

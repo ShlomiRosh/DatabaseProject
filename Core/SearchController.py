@@ -22,3 +22,8 @@ def get_places(loc_id, sub_dict, categories_arr):
         places_entities.append(e.Place(place[0], place[1], place[2], place[3], place[4], place[5],
                                        place[6], place[7], place[8]))
     return places_entities
+
+
+def get_statistics(location_id):
+    statistics = sse.SqlSearch().get_statistics(location_id)
+    return statistics

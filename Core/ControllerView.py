@@ -47,4 +47,3 @@ application.resizable(False, False)
 application.title(TITLE)
 application.iconbitmap('..\Pic\\family.ico')
 application.mainloop()
-# TODO kill threads in system

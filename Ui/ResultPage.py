@@ -166,11 +166,13 @@ class ResultPage(tk.Frame):
             result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
             print(result)
         else:
-            ovb.create_msg(self, 100, 450, 'only registered users can save places')
+            ovb.create_msg(self, 300, 450, 'only registered users can save places')
 
     def rank_on_click(self, controller):
-        # TODO check if user listed
         user = stp.username
+        if user == "":
+            ovb.create_msg(self, 300, 450, 'only registered users can rank places')
+            return
         if self.get_rank():
             print("the rank is ranking now is: " + self.get_rank())
             result = rc.ResultController().rank_place(self.get_rank(), self.complete_place.place.place_id, user)
