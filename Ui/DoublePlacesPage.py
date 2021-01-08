@@ -43,6 +43,7 @@ class DoublePlacesPage(tk.Frame):
         pb.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         pb.start()
         x = threading.Thread(target=self.thread_function)
+        x.setDaemon(True)
         x.start()
         return listbox, pb
 

@@ -105,6 +105,7 @@ class SearchPage(tk.Frame):
         self.progress_bar_result.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         self.progress_bar_result.start()
         self.thread_load_place_info = threading.Thread(target=lambda: self.thread_function_load_result_page(controller))
+        self.thread_load_place_info.setDaemon(True)
         self.thread_load_place_info.start()
 
     def thread_function_load_result_page(self, controller):
@@ -134,6 +135,7 @@ class SearchPage(tk.Frame):
         self.progress_bar.start()
         # TODO add another complex query of group by
         self.thread_basic_search = threading.Thread(target=lambda: self.thread_function_basic_search(controller))
+        self.thread_basic_search.setDaemon(True)
         self.thread_basic_search.start()
 
     def thread_function_basic_search(self, controller):
