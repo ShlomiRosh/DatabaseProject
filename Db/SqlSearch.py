@@ -71,8 +71,8 @@ class SqlSearch:
     def get_statistics(self, location_id):
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "SELECT Places.`Sub Category`, COUNT(*) FROM Places WHERE Places.`Location ID` = %s GROUP BY Places.`Sub Category`"
-                adr = location_id
+                sql = "SELECT Places.`Sub Category`,COUNT(*) FROM Places WHERE Places.`Location ID` = %s GROUP BY Places.`Sub Category`"
+                adr = (location_id,)
                 self.connection.my_cursor.execute(sql, adr)
                 res = self.connection.my_cursor.fetchall()
                 self.connection.close()

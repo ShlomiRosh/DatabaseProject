@@ -148,6 +148,7 @@ class SearchPage(tk.Frame):
         # TODO add another complex query of group by
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
         statistics = sc.get_statistics(location_id)
+        print(statistics)
         self.clear_checks()
         self.show_list_box(controller, places)
 
