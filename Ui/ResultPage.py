@@ -113,9 +113,15 @@ class ResultPage(tk.Frame):
         self.description_frame = tk.Frame(self.results_frame, borderwidth=2)
         tk.Label(self.description_frame, text="Description:", borderwidth=1, font="verdana 13 bold").pack(padx=2,
                                                                                                           pady=2)
-        tk.Label(self.description_frame, text=self.complete_place.place.description, borderwidth=1,
-                 wraplength=400, justify="center").pack(padx=2,
-                                                        pady=2)
+
+        self.text_description = Text(self.description_frame, width=50, height=6, wrap=WORD, bg='SystemButtonFace',
+                                    borderwidth=0, font="TkDefaultFont")
+        self.text_description.tag_configure("center", justify="center")
+        self.text_description.insert(INSERT, self.complete_place.place.description, "center")
+        self.text_description.pack(padx=2, pady=2)
+        # tk.Label(self.description_frame, text=self.complete_place.place.description, borderwidth=1,
+        #          wraplength=400, justify="center").pack(padx=2,
+        #                                                 pady=2)
         tk.Button(self.description_frame, text="Google Search Link", borderwidth=2,
                   command=lambda: self.google_link(controller, coordinates)).pack(padx=2,
                                                                                   pady=2)

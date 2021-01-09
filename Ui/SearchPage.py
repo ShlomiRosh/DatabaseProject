@@ -109,7 +109,7 @@ class SearchPage(tk.Frame):
 
     def show_info(self, controller):
         self.progress_bar_result = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
-        self.progress_bar_result.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
+        self.progress_bar_result.place(bordermode=OUTSIDE, x=470, y=410, height=30, width=250)
         self.progress_bar_result.start()
         self.thread_load_place_info = threading.Thread(target=lambda: self.thread_function_load_result_page(controller))
         self.thread_load_place_info.setDaemon(True)
@@ -135,7 +135,7 @@ class SearchPage(tk.Frame):
             ovb.create_msg(self, 200, 450, 'this place is not in our data base, please try again...')
             return
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
-        self.progress_bar.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
+        self.progress_bar.place(bordermode=OUTSIDE, x=470, y=410, height=30, width=250)
         self.progress_bar.start()
         self.thread_basic_search = threading.Thread(target=lambda: self.thread_function_basic_search(controller))
         self.thread_basic_search.setDaemon(True)
