@@ -147,6 +147,7 @@ class SearchPage(tk.Frame):
         state = state_city_strings[0]
         city = state_city_strings[1]
         # get category id
+        global location_id
         location_id = sc.get_location_id(state, city)[0][0]
         # send to controller to search
         # TODO add another complex query of group by
