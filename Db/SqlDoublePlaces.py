@@ -11,8 +11,6 @@ class SqlDoublePlaces:
     def get_specific_places(self):
         if self.connection.connection_state == 'Connected':
             try:
-                # param_num = ','.join(["%s"]*len(places_id))
-                # sql = "SELECT Places.* FROM Places WHERE Places.`Place ID` not IN(" + param_num + ")"
                 sql = "SELECT Places.* FROM Places WHERE `Place ID` NOT IN(SELECT `Place ID` " \
                        "FROM `Users Places` WHERE `Users Places`.`User Name` LIKE %s)"
                 adr = (self.username,)

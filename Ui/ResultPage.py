@@ -6,6 +6,7 @@ from Ui import StartPage as stp
 from Core import ResultController as rc
 from Ui import OverViewButtons as ovb
 from Core import Entities as entities
+from Ui import UserPage as up
 import webbrowser
 
 FONT_NOTE = ("Ariel", 10, "bold", "underline")
@@ -152,11 +153,12 @@ class ResultPage(tk.Frame):
     # ----------------------------------------------- click handlers --------------------------------------------------
     def go_back_on_click(self, controller):
         self.clear_page()
-        # load next frame (user page)
-        if sp.SearchPage in controller.frames:
-            controller.remove_frame(sp.SearchPage)
-        controller.add_frame(sp.SearchPage)
-        controller.show_frame(sp.SearchPage)
+        # load next frame checking where the user came from.
+        if up.show_result:
+            up.show_result = False
+            controller.manage_frame(up.UserPage)
+        else:
+            controller.manage_frame(sp.SearchPage)
 
     def save_place_on_click(self, controller):
         user = stp.username

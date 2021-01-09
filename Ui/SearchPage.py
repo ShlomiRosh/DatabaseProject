@@ -11,6 +11,7 @@ from Ui import ResultPage as rp
 from Ui import OverViewButtons as ovb
 from Ui.MainCategory import MainCategory
 from Core import Entities as entities
+from Ui import StartPage as sp
 
 place_id = None
 location_id = None
@@ -71,34 +72,40 @@ class SearchPage(tk.Frame):
         self.search_data.place(bordermode=OUTSIDE, x=340, y=45)
         # add place button
         self.add_img = PhotoImage(file='..\Pic\\badd.png')
-        self.add_place = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
-                                   , command=lambda: self.add_place_on_click(controller))
-        self.add_place.place(bordermode=OUTSIDE, x=580, y=450)
-        add_info_label = tk.Label(self, text="Add Places You Couldn't Find by Pressing Add", bg='black', bd=0,
-                                  fg='yellow',
-                                  font=FONT_OUTPUT, wraplength=200, justify='center')
-        add_info_label.place(bordermode=OUTSIDE, x=530, y=45)
+
+        #------------------ The button should only be created after the user has seen the results.
+        # self.add_place = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
+        #                            , command=lambda: self.add_place_on_click(controller))
+        # self.add_place.place(bordermode=OUTSIDE, x=50, y=440)
+        # add_info_label = tk.Label(self, text="Add Places You Couldn't Find by Pressing Add", bg='black', bd=0,
+        #                           fg='yellow',
+        #                           font=FONT_OUTPUT, wraplength=200, justify='center')
+        # add_info_label.place(bordermode=OUTSIDE, x=530, y=45)
+        #--------------------------------------------------------------------------------------
+
         # go back button
         self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
         back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='black'
                          , command=lambda: self.go_back_on_click(controller))
-        back.place(bordermode=OUTSIDE, x=20, y=450)
+        back.place(bordermode=OUTSIDE, x=570, y=450)
 
     # ----------------------------------------------- user buttons! ---------------------------------------------------
 
     def add_place_on_click(self, controller):
         self.clear_page()
-        if app.AddPlacePage not in controller.frames:
-            controller.add_frame(app.AddPlacePage)
-        controller.show_frame(app.AddPlacePage)
+        # if location_id is not None:
+        controller.manage_frame(app.AddPlacePage)
+        # else:
+        #     self.invalid = ovb.create_msg(self, 310, 455, 'To add place to our DB\n''you need to search first\n'/
+        #                                   'to check that it does not exist already.')
 
     def go_back_on_click(self, controller):
         self.clear_page()
-        # load next frame (user page)
-        if up.UserPage in controller.frames:
-            controller.remove_frame(up.UserPage)
-        controller.add_frame(up.UserPage)
-        controller.show_frame(up.UserPage)
+        # load next frame checking where the user came from.
+        if sp.username != '':
+            controller.manage_frame(up.UserPage)
+        else:
+            controller.manage_frame(sp.StartPage)
 
     def show_info(self, controller):
         self.progress_bar_result = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
@@ -116,10 +123,7 @@ class SearchPage(tk.Frame):
             self.invalid = ovb.create_msg(self, 310, 455, 'Please select place\n''from the list box.')
         else:
             # move to result page
-            if rp.ResultPage in controller.frames:
-                controller.remove_frame(rp.ResultPage)
-            controller.add_frame(rp.ResultPage)
-            controller.show_frame(rp.ResultPage)
+            controller.manage_frame(rp.ResultPage)
         self.progress_bar_result.destroy()
 
     # -------------------------------------------------- search! ------------------------------------------------------
@@ -150,7 +154,22 @@ class SearchPage(tk.Frame):
         statistics = sc.get_statistics(location_id)
         print(statistics)
         self.clear_checks()
+        self.show_statistics(statistics)
         self.show_list_box(controller, places)
+
+    def show_statistics(self, statistics):
+        if statistics == 'Error Connection':
+            self.invalid = ovb.create_msg(self, 570, 455, 'Error occurred while\n''accessing database.')
+        else:
+            txt_label = 'In the country and city you searched\n'' for,' \
+                       ' the following data exists in our database\n'' (Number of places available of any kind):'
+            self.statistics_label = Label(self, text=txt_label, bg='black', bd=0,
+                                  fg='yellow', font=FONT_OUTPUT)
+            self.statistics_label.place(bordermode=OUTSIDE, x=460, y=140)
+            self.text_statistics = Text(self, width=30, height=12)
+            self.text_statistics.insert(INSERT, statistics)
+            self.text_statistics.place(bordermode=OUTSIDE, x=470, y=200)
+
 
     def show_list_box(self, controller, places):
         self.create_listbox()
@@ -165,7 +184,6 @@ class SearchPage(tk.Frame):
     def create_listbox(self):
         self.listbox = Listbox(self, bg='black', activestyle='dotbox',
                                font=FONT_LIST, fg="yellow")
-
         scrollbar = Scrollbar(self.listbox, orient="vertical")
         scrollbar.config(command=self.listbox.yview)
         scrollbar.pack(side="right", fill="y")
@@ -175,13 +193,22 @@ class SearchPage(tk.Frame):
         self.showp_img = PhotoImage(file='..\Pic\\binfo.png')
         self.information_itemb = tk.Button(self, image=self.showp_img, borderwidth=0, background='black'
                                            , command=lambda: self.show_info(controller))
-        self.information_itemb.place(bordermode=OUTSIDE, x=300, y=420)
+        self.information_itemb.place(bordermode=OUTSIDE, x=250, y=430)
+        self.add_place = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
+                                   , command=lambda: self.add_place_on_click(controller))
+        self.add_place.place(bordermode=OUTSIDE, x=70, y=430)
+        note = tk.Label(self, text='Note here!', bg='black', bd=0, fg='blue', font=FONT_LIST)
+        note.place(bordermode=OUTSIDE, x=70, y=465)
+        ovb.create_tool_tip(note, text='Add Places You Couldn\'t\n''Find in the result by Pressing Add.')
 
     def insert_data_to_listbox(self, places):
         for item in places:
             self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
                                 + item.place_name.upper())
-        self.listbox.place(bordermode=OUTSIDE, x=20, y=140, height=270, width=710)
+            # TODO Arye check this, that not return places in the correct location_id
+            # self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
+            #                     + str(item.location_id).upper() + '    ')
+        self.listbox.place(bordermode=OUTSIDE, x=20, y=140, height=270, width=430)
         self.progress_bar.destroy()
 
     def clear_checks(self):

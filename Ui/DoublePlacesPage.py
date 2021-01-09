@@ -25,7 +25,7 @@ class DoublePlacesPage(tk.Frame):
         # in the appropriate places, and run logic according to the user's requirements.
         self.canvas = self.background()
         self.listbox, self.progressbar = self.input_output()
-        self.buttons(controller)
+        self.add, self.go_back = self.buttons(controller)
 
 
     def background(self):
@@ -38,7 +38,6 @@ class DoublePlacesPage(tk.Frame):
 
     def input_output(self):
         listbox = Listbox(self,selectmode=MULTIPLE, activestyle='dotbox', font=FONT_LIST)
-        listbox.place(bordermode=OUTSIDE, x=30, y=47, height=385, width=310)
         pb = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         pb.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         pb.start()
@@ -54,16 +53,18 @@ class DoublePlacesPage(tk.Frame):
         for item in data:
             self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
                            + item.place_name.upper())
+        self.listbox.place(bordermode=OUTSIDE, x=30, y=47, height=385, width=310)
+        self.go_back.place(bordermode=OUTSIDE, x=190, y=450)
+        self.add.place(bordermode=OUTSIDE, x=30, y=450)
         self.progressbar.destroy()
 
 
     def buttons(self, controller):
         add = tk.Button(self, image=self.addf_img, borderwidth=0, background='black'
                           , command = lambda: self.add_button(controller))
-        add.place(bordermode=OUTSIDE, x=30, y=450)
         go_back = tk.Button(self, image=self.goback_img, borderwidth=0, background='black'
                              , command=lambda: self.goback_button(controller))
-        go_back.place(bordermode=OUTSIDE, x=190, y=450)
+        return add, go_back
 
 
     def goback_button(self, controller):

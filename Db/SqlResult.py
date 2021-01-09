@@ -63,10 +63,9 @@ class SqlResult:
             try:
                 sql = "INSERT INTO `users places`(`User Name`, `Place ID`) VALUES (%s, %s)"
                 if type(places) == list:
-                    val = []
                     for i in places:
-                        val.append((username, i))
-                        self.connection.my_cursor.executemany(sql, val)
+                        val =(username, i)
+                        self.connection.my_cursor.execute(sql, val)
                 else:
                     val = (username, places)
                     self.connection.my_cursor.execute(sql, val)

@@ -1,4 +1,3 @@
-import MySQLdb
 import asyncio
 from Db import SqlConnection as sc
 
@@ -23,8 +22,7 @@ class SqlSearch:
                 res = self.connection.my_cursor.fetchall()
                 self.connection.close()
                 return res
-            except (MySQLdb.Error, MySQLdb.Warning) as e:
-                print(e)
+            except :
                 return 'Error'
         return 'Error'
 
@@ -63,8 +61,7 @@ class SqlSearch:
                 res = self.connection.my_cursor.fetchall()
                 self.connection.close()
                 return res
-            except (MySQLdb.Error, MySQLdb.Warning) as e:
-                print(e)
+            except:
                 return 'Error'
         return 'Error'
 
@@ -78,8 +75,7 @@ class SqlSearch:
                 self.connection.close()
                 print(res)
                 return res
-            except (MySQLdb.Error, MySQLdb.Warning) as e:
-                print(e)
+            except :
                 return 'Error'
         return 'Error'
         pass

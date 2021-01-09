@@ -13,6 +13,6 @@ def place_exists(place_name, address):
 # The function gets a place and details about it, puts it in the appropriate entity and sends it to
 # SQL to put it into the database.
 def insert_place(name, addr, longitude, latitude, description, link, sub_cut, loca_id):
-    place = e.Place(name, addr, longitude, latitude, description, link, sub_cut, loca_id)
+    place = e.Place(None, name, addr, latitude, longitude, link, description, loca_id, e.get_sub_category_dict()[sub_cut])
     res = sap.SqlAddPlace().insert_place_record(place)
     return 'Error Connection' if res == 'Error' else 'Inserted'

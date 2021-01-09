@@ -1,5 +1,7 @@
 from tkinter import *
 import tkinter as tk
+from tkinter import ttk
+import threading
 from Ui import SearchPage as sp
 from Ui import StartPage as st
 from Ui import ResultPage as rp
@@ -9,6 +11,7 @@ from Ui import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10)
 FONT_LIST = ("Ariel", 10, "bold", "underline")
+show_result = False
 
 # This class is responsible for displaying the user page.
 class UserPage(tk.Frame):
@@ -169,9 +172,21 @@ class UserPage(tk.Frame):
 
 
     def show_info(self, controller):
+        progress_bar_result = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
+        progress_bar_result.place(bordermode=OUTSIDE, x=490, y=450, height=30, width=150)
+        progress_bar_result.start()
+        thread_load_place_info = threading.Thread(target=lambda: self.thread_function_load_result_page(controller, progress_bar_result))
+        thread_load_place_info.setDaemon(True)
+        thread_load_place_info.start()
+
+
+    def thread_function_load_result_page(self, controller, progress_bar_result):
         # the user wanted to see data about a place in his list, save the place's ID and move it to the appropriate page.
         sp.place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
         if sp.place_id is None:
             self.invalid = ovb.create_msg(self, 410, 455, 'Please select place\n''from the list box.')
         else:
+            global show_result
+            show_result = True
             controller.manage_frame(rp.ResultPage)
+        progress_bar_result.destroy()

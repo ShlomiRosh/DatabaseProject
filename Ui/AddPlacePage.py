@@ -1,7 +1,9 @@
 from tkinter import *
 import tkinter as tk
+from tkinter import ttk
 from Ui import SearchPage as sep
 from Core import AddPlaceController as apc
+from Core import Entities as e
 from Ui import OverViewButtons as ovb
 
 FONT_OUTPUT = ("Ariel", 10, "underline")
@@ -21,7 +23,7 @@ class AddPlacePage(tk.Frame):
         self.background()
         # Init vars of input_output
         self.places_namee, self.addresse, self.latitudee, self.longitudee, self.linke \
-            , self.descriptione = self.input_output()
+            , self.descriptione, self.sub_cut = self.input_output()
         self.buttons(controller)
 
 
@@ -60,7 +62,12 @@ class AddPlacePage(tk.Frame):
         descriptionl.place(bordermode=OUTSIDE, x=510, y=80)
         descriptione = Entry(self, bg='#fdeca6', fg='blue', bd=0)
         descriptione.place(bordermode=OUTSIDE, x=510, y=100, width=200, height=25)
-        return places_namee, addresse, latitudee, longitudee, linke, descriptione
+
+        sub_catl = tk.Label(self, text='Choose Category:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
+        sub_catl.place(bordermode=OUTSIDE, x=30, y=130)
+        sub_cat = ttk.Combobox(self, values=list(e.get_sub_category_dict().values()))
+        sub_cat.place(bordermode=OUTSIDE, x=30, y=150, width=200, height=25)
+        return places_namee, addresse, latitudee, longitudee, linke, descriptione, sub_cat
 
 
     def buttons(self, controller):
@@ -90,16 +97,23 @@ class AddPlacePage(tk.Frame):
         elif len(self.latitudee.get()) == 0:
             self.invalid = ovb.create_msg(self, 575, 200, 'Latitude cannot be empty.\n')
         elif len(self.longitudee.get()) == 0:
-            self.invalid = ovb.create_msg(self, 575, 200, 'longitude cannot be empty.\n')
+            self.invalid = ovb.create_msg(self, 575, 200, 'Longitude cannot be empty.\n')
+        elif len(self.sub_cut.get()) == 0:
+            self.invalid = ovb.create_msg(self, 575, 200, 'Category cannot be empty.\n')
         else:
+            print(self.sub_cut.get())
             ip = apc.insert_place(self.places_namee.get(), self.addresse.get(), float(self.longitudee.get()),
                                   float(self.latitudee.get()), self.descriptione.get(), self.linke.get(),
-                                  sep.sub_cutegory, sep.location_id)
+                                  self.sub_cut.get(), sep.location_id)
             if ip == 'Inserted':
                 msg = 'The place was added successfully,\n''thanks for the cooperation.'
-                thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
-                thanks.place(bordermode=OUTSIDE, x=40, y=150)
+                # thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
+                # thanks.place(bordermode=OUTSIDE, x=40, y=150)
                 self.clean_entrys()
+            else:
+                msg = 'Error occurred while\n''accessing database.'
+            thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
+            thanks.place(bordermode=OUTSIDE, x=35, y=180)
 
 
     def go_back_button(self, controller):
