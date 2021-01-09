@@ -84,7 +84,6 @@ class AddPlacePage(tk.Frame):
     def add_button(self, controller):
         if self.invalid is not None:
             self.invalid.destroy()
-        # TODO place exists needs to be in another thread
         pe = apc.place_exists(self.places_namee.get(), self.addresse.get())
         if pe == 'Error Connection':
             self.invalid = ovb.create_msg(self, 575, 200, 'Error occurred while\n''accessing database.')
@@ -101,14 +100,11 @@ class AddPlacePage(tk.Frame):
         elif len(self.sub_cut.get()) == 0:
             self.invalid = ovb.create_msg(self, 575, 200, 'Category cannot be empty.\n')
         else:
-            print(self.sub_cut.get())
             ip = apc.insert_place(self.places_namee.get(), self.addresse.get(), float(self.longitudee.get()),
                                   float(self.latitudee.get()), self.descriptione.get(), self.linke.get(),
                                   self.sub_cut.get(), sep.location_id)
             if ip == 'Inserted':
                 msg = 'The place was added successfully,\n''thanks for the cooperation.'
-                # thanks = tk.Label(self, text=msg, bg='white', bd=0, fg='blue', font=FONT_TY)
-                # thanks.place(bordermode=OUTSIDE, x=40, y=150)
                 self.clean_entrys()
             else:
                 msg = 'Error occurred while\n''accessing database.'
