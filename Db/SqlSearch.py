@@ -33,7 +33,9 @@ class SqlSearch:
                 adr = (loc_id,)
                 subs_adr = []
                 for cat_check in categories_arr:
-                    only_main = True
+                    if cat_check and cat_check.check_var.get():
+                        only_main = True
+                    else: only_main = False
                     for sub_check in cat_check.sub_checks_arr:
                         if sub_check and sub_check.check_var.get():
                             only_main = False
@@ -47,6 +49,14 @@ class SqlSearch:
                             tmp = sub_check.code
                             tmp = "'%s'" % tmp
                             subs_adr.append(tmp)
+
+                if len(subs_adr) == 0:
+                    for cat_check in categories_arr:
+                        for sub_check in cat_check.sub_checks_arr:
+                            tmp = sub_check.code
+                            tmp = "'%s'" % tmp
+                            subs_adr.append(tmp)
+
                 adr_string = ','.join(subs_adr)
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s AND Places.`Sub Category` IN ("+adr_string+")"
 
