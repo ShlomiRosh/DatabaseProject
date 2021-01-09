@@ -22,7 +22,7 @@ class SqlSearch:
                 res = self.connection.my_cursor.fetchall()
                 self.connection.close()
                 return res
-            except :
+            except:
                 return 'Error'
         return 'Error'
 
@@ -30,38 +30,36 @@ class SqlSearch:
     def get_places_query(self, loc_id, sub_dict, categories_arr):
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s"
-                adr = []
-                adr.append(loc_id)
+                adr = (loc_id,)
+                subs_adr = []
                 for cat_check in categories_arr:
-                    first = True
+                    only_main = True
                     for sub_check in cat_check.sub_checks_arr:
                         if sub_check and sub_check.check_var.get():
-                            if first:
-                                sql += " AND Places.`Sub Category` LIKE %s"
-                                adr.append(sub_check.code)
-                                first = False
-                            else:
-                                sql += " OR Places.`Sub Category` LIKE %s"
-                                adr.append(sub_check.code)
+                            only_main = False
+                            tmp = sub_check.code
+                            tmp = "'%s'" % tmp
+                            subs_adr.append(tmp)
                     # if only main category is checked - get all subs
-                    if first and cat_check.check_var.get():
-                        first_b = True
+                    if only_main and cat_check.check_var.get():
+                        only_main = False
                         for sub_check in cat_check.sub_checks_arr:
-                            if first_b:
-                                sql += " AND Places.`Sub Category` LIKE %s"
-                                adr.append(sub_check.code)
-                                first_b = False
-                            else:
-                                sql += " OR Places.`Sub Category` LIKE %s"
-                                adr.append(sub_check.code)
+                            tmp = sub_check.code
+                            tmp = "'%s'" % tmp
+                            subs_adr.append(tmp)
+                adr_string = ','.join(subs_adr)
+                sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s AND Places.`Sub Category` IN ("+adr_string+")"
+
                 print(sql)
                 print(adr)
+
                 self.connection.my_cursor.execute(sql, adr)
                 res = self.connection.my_cursor.fetchall()
+                print (res)
                 self.connection.close()
                 return res
-            except:
+            except Exception as e:
+                print(e)
                 return 'Error'
         return 'Error'
 
@@ -75,7 +73,7 @@ class SqlSearch:
                 self.connection.close()
                 print(res)
                 return res
-            except :
+            except:
                 return 'Error'
         return 'Error'
         pass

@@ -205,9 +205,7 @@ class SearchPage(tk.Frame):
         for item in places:
             self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
                                 + item.place_name.upper())
-            # TODO Arye check this, that not return places in the correct location_id
-            # self.listbox.insert(END, 'Place ID:' + ' ' + str(item.place_id) + ' '
-            #                     + str(item.location_id).upper() + '    ')
+
         self.listbox.place(bordermode=OUTSIDE, x=20, y=140, height=270, width=430)
         self.progress_bar.destroy()
 
