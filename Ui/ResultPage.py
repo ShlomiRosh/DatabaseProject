@@ -37,10 +37,10 @@ class ResultPage(tk.Frame):
                          , command=lambda: self.go_back_on_click(controller))
         back.place(bordermode=OUTSIDE, x=20, y=450)
         # save place button
-        self.save_place_img = PhotoImage(file='..\Pic\\bsaveplace.png')
+        self.save_place_img = PhotoImage(file='..\Pic\\saveplaceb.png')
         save_place = tk.Button(self, image=self.save_place_img, borderwidth=0, background='black'
                                , command=lambda: self.save_place_on_click(controller))
-        save_place.place(bordermode=OUTSIDE, x=530, y=445)
+        save_place.place(bordermode=OUTSIDE, x=580, y=450)
 
     def show_results(self, controller):
         # results main container (grid)
@@ -168,13 +168,13 @@ class ResultPage(tk.Frame):
     def save_place_on_click(self, controller):
         user = stp.username
         if user is not None and user != "":
-            print(user)
-            print("saving")
+            # print(user)
+            # print("saving")
             if up.show_result:
                 ovb.create_msg(self, 300, 450, 'This place already in your places list.')
             else:
                 result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
-                print(result)
+                # print(result)
         else:
             ovb.create_msg(self, 300, 450, 'only registered users can save places')
 
