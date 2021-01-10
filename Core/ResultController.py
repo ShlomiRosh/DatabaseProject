@@ -8,7 +8,6 @@ import wikipedia
 class ResultController:
 
     def get_place_all_recorde(self, place_id):
-        # sro = sr.SqlResult(self.place_id)
         raw_data = sr.SqlResult().get_place_record(place_id)
         if raw_data == 'Error':
             return 'Error Connection'
@@ -24,13 +23,11 @@ class ResultController:
         raw_location = sr.SqlResult().get_location(raw_data[7])
         if raw_location == 'Error':
             return 'Error Connection'
-        #print(raw_location)
         city, state = raw_location[0], raw_location[1]
 
         raw_category = sr.SqlResult().get_category(raw_data[8])
         if raw_category == 'Error':
             return 'Error Connection'
-        #print(raw_category)
         category = raw_category[0]
 
         raw_rating = sr.SqlResult().get_rating(place_id)
@@ -54,7 +51,6 @@ class ResultController:
                 summary = wikipedia.summary(summary, sentences=2)
             except:
                 summary = ''
-        # TODO Resize the description column in the database to 520 characters!!!
         # The description column in the database must be at most 520 characters long.
         if summary == '':
             description = 'No description available.'

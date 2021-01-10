@@ -31,7 +31,7 @@ class AddPlacePage(tk.Frame):
         panel = tk.Label(self, image=self.img)
         panel.place(bordermode=OUTSIDE)
 
-    # TODO add sub category
+
     def input_output(self):
         places_namel = tk.Label(self, text='Place Name:', bg='white', bd=0, fg='blue', font=FONT_OUTPUT)
         places_namel.place(bordermode=OUTSIDE, x=30, y=30)

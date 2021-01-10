@@ -73,16 +73,6 @@ class SearchPage(tk.Frame):
         # add place button
         self.add_img = PhotoImage(file='..\Pic\\badd.png')
 
-        #------------------ The button should only be created after the user has seen the results.
-        # self.add_place = tk.Button(self, image=self.add_img, borderwidth=0, background='black'
-        #                            , command=lambda: self.add_place_on_click(controller))
-        # self.add_place.place(bordermode=OUTSIDE, x=50, y=440)
-        # add_info_label = tk.Label(self, text="Add Places You Couldn't Find by Pressing Add", bg='black', bd=0,
-        #                           fg='yellow',
-        #                           font=FONT_OUTPUT, wraplength=200, justify='center')
-        # add_info_label.place(bordermode=OUTSIDE, x=530, y=45)
-        #--------------------------------------------------------------------------------------
-
         # go back button
         self.go_back_img = PhotoImage(file='..\Pic\\bgoback.png')
         back = tk.Button(self, image=self.go_back_img, borderwidth=0, background='black'
@@ -93,11 +83,7 @@ class SearchPage(tk.Frame):
 
     def add_place_on_click(self, controller):
         self.clear_page()
-        # if location_id is not None:
         controller.manage_frame(app.AddPlacePage)
-        # else:
-        #     self.invalid = ovb.create_msg(self, 310, 455, 'To add place to our DB\n''you need to search first\n'/
-        #                                   'to check that it does not exist already.')
 
     def go_back_on_click(self, controller):
         self.clear_page()
@@ -128,8 +114,6 @@ class SearchPage(tk.Frame):
 
     # -------------------------------------------------- search! ------------------------------------------------------
     def search_data_on_click(self, controller):
-        # message of loading?
-        # self.clean_entrys()
         # check if the input is valid location in autocomplete places...
         if not self.state_city.get() in autocompleteList:
             ovb.create_msg(self, 200, 450, 'this place is not in our data base, please try again...')
@@ -150,10 +134,8 @@ class SearchPage(tk.Frame):
         global location_id
         location_id = sc.get_location_id(state, city)[0][0]
         # send to controller to search
-        # TODO add another complex query of group by
         places = sc.get_places(location_id, self.categories_dictionary, self.categories_arr)
         statistics = sc.get_statistics(location_id)
-        print(statistics)
         self.clear_checks()
         self.show_statistics(statistics)
         self.show_list_box(controller, places)

@@ -100,7 +100,6 @@ class SqlResult:
                 self.connection.mydb.commit()
                 self.connection.close()
                 return 'Inserted'
-            except Exception as e:
-                print(e)
+            except:
                 return 'Error'
         return 'Error'

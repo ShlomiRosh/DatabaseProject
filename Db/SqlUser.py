@@ -23,8 +23,6 @@ class SqlUser:
     def get_user_places(self, columns = 'Places.*'):
         if self.connection.connection_state == 'Connected':
             try:
-                # sql = "SELECT DISTINCT " + columns + " FROM Places JOIN `Users Places` USING(`Place ID`) "" \
-                #       ""WHERE `Users Places`.`User Name` = %s"
                 sql = "SELECT DISTINCT " + columns + " FROM Places JOIN `Users Places` USING(`Place ID`) "" \
                       ""WHERE `Users Places`.`User Name` = %s"
                 adr = (self.username,)
