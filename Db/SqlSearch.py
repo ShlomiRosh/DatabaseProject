@@ -27,45 +27,13 @@ class SqlSearch:
         return 'Error'
 
     # basic query for places
-    def get_places_query(self, loc_id, sub_dict, categories_arr):
+    def get_places_query(self, loc_id, adr_string):
         if self.connection.connection_state == 'Connected':
             try:
                 adr = (loc_id,)
-                subs_adr = []
-                for cat_check in categories_arr:
-                    if cat_check and cat_check.check_var.get():
-                        only_main = True
-                    else: only_main = False
-                    for sub_check in cat_check.sub_checks_arr:
-                        if sub_check and sub_check.check_var.get():
-                            only_main = False
-                            tmp = sub_check.code
-                            tmp = "'%s'" % tmp
-                            subs_adr.append(tmp)
-                    # if only main category is checked - get all subs
-                    if only_main and cat_check.check_var.get():
-                        only_main = False
-                        for sub_check in cat_check.sub_checks_arr:
-                            tmp = sub_check.code
-                            tmp = "'%s'" % tmp
-                            subs_adr.append(tmp)
-
-                if len(subs_adr) == 0:
-                    for cat_check in categories_arr:
-                        for sub_check in cat_check.sub_checks_arr:
-                            tmp = sub_check.code
-                            tmp = "'%s'" % tmp
-                            subs_adr.append(tmp)
-
-                adr_string = ','.join(subs_adr)
                 sql = "SELECT * FROM Places WHERE Places.`Location ID` LIKE %s AND Places.`Sub Category` IN ("+adr_string+")"
-
-                print(sql)
-                print(adr)
-
                 self.connection.my_cursor.execute(sql, adr)
                 res = self.connection.my_cursor.fetchall()
-                print (res)
                 self.connection.close()
                 return res
             except Exception as e:
