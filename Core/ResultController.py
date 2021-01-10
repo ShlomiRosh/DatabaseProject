@@ -64,3 +64,12 @@ class ResultController:
 
     def rank_place(self, rating, place_id, username):
         return sr.SqlResult().rank_place(rating, place_id, username)
+
+    def get_current_rating(self, place_id, complete_place):
+        raw_rating = sr.SqlResult().get_rating(place_id)
+        if raw_rating == 'Error':
+            return 'Error Connection'
+        rating = raw_rating[0]
+        rating = str(int(rating)) if rating is not None else 'Not rated yet.'
+        complete_place.rating = rating
+        return complete_place

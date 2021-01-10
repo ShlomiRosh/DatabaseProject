@@ -119,7 +119,7 @@ class ResultPage(tk.Frame):
         self.text_description.tag_configure("center", justify="center")
         self.text_description.insert(INSERT, self.complete_place.place.description, "center")
         self.text_description.pack(padx=2, pady=2)
-  
+
         tk.Button(self.description_frame, text="Google Search Link", borderwidth=2,
                   command=lambda: self.google_link(controller, coordinates)).pack(padx=2,
                                                                                   pady=2)
@@ -147,8 +147,9 @@ class ResultPage(tk.Frame):
         tk.Label(self.rank_frame, text="Average Rank Of the Place",
                  borderwidth=1, font="verdana 13 bold").pack(padx=2,
                                                              pady=2)
-        tk.Label(self.rank_frame, text=self.complete_place.rating,
-                 borderwidth=1).pack()
+        self.rank_label = tk.Label(self.rank_frame, text=self.complete_place.rating,
+                 borderwidth=1)
+        self.rank_label.pack()
         self.rank_frame.grid(row=3, column=1, columnspan=2, rowspan=2,
                              sticky=N + S + E + W,
                              padx=5, pady=5)
@@ -186,6 +187,9 @@ class ResultPage(tk.Frame):
             print("the rank is ranking now is: " + self.get_rank())
             result = rc.ResultController().rank_place(self.get_rank(), self.complete_place.place.place_id, user)
             print(result)
+            self.complete_place = rc.ResultController().get_current_rating(self.complete_place.place.place_id
+                                                                           , self.complete_place)
+            self.rank_label.config(text=self.complete_place.rating)
         else:
             ovb.create_msg(self, 200, 450, 'please select a rank first between 1-10')
 
