@@ -47,7 +47,7 @@ categories_dictionary = {
     ("NTRL", "Nature"): [("BCH", "Beach"), ("BCHS", "Beaches"), ("CST", "Coast"), ("FISH", "Fish"),
                          ("FLLS", "Waterfalls"), ("LGN", "Lagona"), ("LK", "Lake"), ("MT", "Mountain"),
                          ("OBPT", "Obsercation Point"), ("PRK", "Park"), ("RESF", "Forest Reserve"),
-                         ("RESN", "Nature Reserve"), ("RESW", "Wildlife Reserve"), ("RF", "Reef"), ("VLC", "Volcano"), ("RKRY", "Birds Colony"), ("ML", "Ml")],
+                         ("RESN", "Nature Reserve"), ("RESW", "Wildlife Reserve"), ("RF", "Reef"), ("VLC", "Volcano"), ("RKRY", "Birds Colony"), ("ML", "Nature Products")],
     ("HSTRY", "History"): [("ANS", "History Site"), ("ART", "Piece Of Art"), ("CSTL", "Castle"),
                            ("MNMT", "Monument"),
                            ("TMPL", "Temple")],
