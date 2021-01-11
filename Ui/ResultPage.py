@@ -176,7 +176,7 @@ class ResultPage(tk.Frame):
         if user is not None and user != "":
             # print(user)
             # print("saving")
-            if up.show_result:
+            if up.show_result or rc.ResultController().check_user_place_exist(self.complete_place.place.place_id, user):
                 ovb.create_msg(self, 580, 483, 'This place already in your places list.')
             else:
                 result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
