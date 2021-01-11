@@ -1,0 +1,4 @@
+host=localhost
+database=team33
+user=root
+password=5678910

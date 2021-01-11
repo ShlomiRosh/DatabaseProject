@@ -1,16 +1,25 @@
 import mysql.connector
 from mysql.connector import pooling
 
+# Open the configuration file and take the data to connect with to MYSQL.
+file_configuration_name = '..\configuration.txt'
+file = open(file_configuration_name, 'r')
+lines = tuple(file)
+file.close()
+map_configuration = {}
+# Add to the dict the content of the file, key = host, database, user, password.
+for line in lines:
+    data = line.strip().split('=')
+    map_configuration[data[0]] = data[1]
 # Create an a connection pool for the SQL modules to preform on.
 try:
     connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="pynative_pool",
                                                                   pool_size=5,
                                                                   pool_reset_session=True,
-                                                                  host='localhost',
-                                                                  database='TripleA',
-                                                                  user='root',
-                                                                  password='Aryea182@')
-
+                                                                  host=map_configuration['host'],
+                                                                  database=map_configuration['database'],
+                                                                  user=map_configuration['user'],
+                                                                  password=map_configuration['password'])
 except:
     print('Error while connecting to MySQL using Connection pool')
 

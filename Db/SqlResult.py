@@ -22,7 +22,7 @@ class SqlResult:
     def insert_place_description(self, description, place_id):
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "UPDATE TripleA.Places SET Places.Description = %s WHERE Places.`Place ID` = %s"
+                sql = "UPDATE Places SET Places.Description = %s WHERE Places.`Place ID` = %s"
                 adr = (description, place_id)
                 self.connection.my_cursor.execute(sql, adr)
                 self.connection.mydb.commit()
@@ -94,7 +94,7 @@ class SqlResult:
     def rank_place(self, rating, location_id, username):
         if self.connection.connection_state == 'Connected':
             try:
-                sql = "UPDATE TripleA.`Users Places` SET `Users Places`.Rating = %s WHERE"\
+                sql = "UPDATE `Users Places` SET `Users Places`.Rating = %s WHERE"\
                 " `Users Places`.`User Name` = %s AND `Users Places`.`Place ID` = %s"
                 adr = (rating, username, location_id)
                 self.connection.my_cursor.execute(sql, adr)
