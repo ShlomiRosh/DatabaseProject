@@ -10,7 +10,8 @@ map_configuration = {}
 # Add to the dict the content of the file, key = host, database, user, password.
 for line in lines:
     data = line.strip().split('=')
-    map_configuration[data[0]] = data[1]
+    if len(data) == 2:
+        map_configuration[data[0]] = data[1]
 # Create an a connection pool for the SQL modules to preform on.
 try:
     connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="pynative_pool",
