@@ -73,3 +73,9 @@ class ResultController:
         rating = str(int(rating)) if rating is not None else 'Not rated yet.'
         complete_place.rating = rating
         return complete_place
+
+    def check_user_place_exist(self, place_id, username):
+        res = sr.SqlResult().user_place_exist(place_id, username)
+        if res == 'Error':
+            return 'Error Connection'
+        return True if res[0][0] != 0 else False

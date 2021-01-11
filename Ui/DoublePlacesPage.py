@@ -41,13 +41,13 @@ class DoublePlacesPage(tk.Frame):
         pb = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         pb.place(bordermode=OUTSIDE, x=415, y=410, height=30, width=250)
         pb.start()
-        x = threading.Thread(target=self.thread_function)
+        x = threading.Thread(target=self.thread_show_algo_results)
         x.setDaemon(True)
         x.start()
         return listbox, pb
 
     
-    def thread_function(self):
+    def thread_show_algo_results(self):
         data = dpc.DoublePlacesController(sp.username).get_neighbors()
         # Fill the listbox with items
         for item in data:

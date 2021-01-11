@@ -45,9 +45,9 @@ def create_tool_tip(widget, text):
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
 
-def create_msg(self, p_x, p_y, message):
-    invalid = tk.Label(self, text='Note here!'
-                            , bg='black', bd=0, fg='red', font=FONT_NOTE)
-    invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
+def create_msg(self, p_x, p_y, message, bg_color = 'black', txt_color = 'red'):
+    invalid = tk.Label(self, text='Note here!', bg=bg_color, bd=0, fg=txt_color, font=FONT_NOTE)
+    if p_y and p_x:
+        invalid.place(bordermode=OUTSIDE, x=p_x, y=p_y)
     create_tool_tip(invalid, text=message)
     return invalid

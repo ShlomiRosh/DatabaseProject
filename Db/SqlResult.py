@@ -90,7 +90,6 @@ class SqlResult:
                 return 'Error'
         return 'Error'
 
-
     def rank_place(self, rating, location_id, username):
         if self.connection.connection_state == 'Connected':
             try:
@@ -101,6 +100,19 @@ class SqlResult:
                 self.connection.mydb.commit()
                 self.connection.close()
                 return 'Inserted'
+            except:
+                return 'Error'
+        return 'Error'
+
+    def user_place_exist(self, place_id, username):
+        if self.connection.connection_state == 'Connected':
+            try:
+                sql = "SELECT COUNT(*) FROM `Users Places` WHERE `User Name` = %s AND `Place ID` = %s"
+                adr = (username, place_id)
+                self.connection.my_cursor.execute(sql, adr)
+                res = self.connection.my_cursor.fetchall()
+                self.connection.close()
+                return res
             except:
                 return 'Error'
         return 'Error'

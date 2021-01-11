@@ -106,7 +106,7 @@ class SearchPage(tk.Frame):
         place_id = int(self.listbox.get(ANCHOR).split(' ')[2].strip()) if self.listbox.get(ANCHOR) != '' else None
         # user has not selected any place to show
         if place_id is None:
-            self.invalid = ovb.create_msg(self, 310, 455, 'Please select place\n''from the list box.')
+            self.invalid = ovb.create_msg(self, 250, 465, 'Please select place\n''from the list box.')
         else:
             # move to result page
             controller.manage_frame(rp.ResultPage)
@@ -116,7 +116,7 @@ class SearchPage(tk.Frame):
     def search_data_on_click(self, controller):
         # check if the input is valid location in autocomplete places...
         if not self.state_city.get() in autocompleteList:
-            ovb.create_msg(self, 200, 450, 'this place is not in our data base, please try again...')
+            ovb.create_msg(self, 340, 80, 'This place is not in our data base, please try again...')
             return
         self.progress_bar = ttk.Progressbar(self, orient='horizontal', mode='indeterminate')
         self.progress_bar.place(bordermode=OUTSIDE, x=470, y=410, height=30, width=250)

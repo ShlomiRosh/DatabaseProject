@@ -144,6 +144,12 @@ class ResultPage(tk.Frame):
         tk.Button(self.rank_frame, text="Rank!", borderwidth=2,
                   command=lambda: self.rank_on_click(controller)).pack(padx=2,
                                                                        pady=2)
+        self.select_msg = ovb.create_msg(self.rank_frame, 0, 0, 'please select a rank first between 1-10', 'SystemButtonFace')
+        self.thanks_msg = ovb.create_msg(self.rank_frame, 0, 0, 'Thank You', 'SystemButtonFace', 'blue')
+        self.error_msg = ovb.create_msg(self.rank_frame, 0, 0, 'only registered users can rank places', 'SystemButtonFace')
+        self.con_error = ovb.create_msg(self.rank_frame, 0, 0, 'Error occurred while\n''accessing database.', 'SystemButtonFace')
+        self.save_first_msg = ovb.create_msg(self.rank_frame, 0, 0, 'In order to rank you need to\n''save the place first.', 'SystemButtonFace')
+
         tk.Label(self.rank_frame, text="Average Rank Of the Place",
                  borderwidth=1, font="verdana 13 bold").pack(padx=2,
                                                              pady=2)
@@ -171,27 +177,51 @@ class ResultPage(tk.Frame):
             # print(user)
             # print("saving")
             if up.show_result:
-                ovb.create_msg(self, 300, 450, 'This place already in your places list.')
+                ovb.create_msg(self, 580, 483, 'This place already in your places list.')
             else:
                 result = rc.ResultController().add_places_to_user_places(self.complete_place.place.place_id, user)
-                # print(result)
+                if result == 'Error':
+                    ovb.create_msg(self, 580, 483, 'Error occurred while\n''accessing database.')
+                else:
+                    ovb.create_msg(self, 580, 483, 'The place has been successfully added\n''to your favorites list.','black','blue')
         else:
-            ovb.create_msg(self, 300, 450, 'only registered users can save places')
+            ovb.create_msg(self, 580, 483, 'only registered users can save places')
 
     def rank_on_click(self, controller):
         user = stp.username
         if user == "":
-            ovb.create_msg(self, 300, 450, 'only registered users can rank places')
+            self.error_msg.pack()
             return
-        if self.get_rank():
-            print("the rank is ranking now is: " + self.get_rank())
+        place_exist = rc.ResultController().check_user_place_exist(self.complete_place.place.place_id, user)
+        if self.get_rank() and place_exist:
+            # print("the rank is ranking now is: " + self.get_rank())
             result = rc.ResultController().rank_place(self.get_rank(), self.complete_place.place.place_id, user)
-            print(result)
+            if result == 'Error':
+                self.con_error.pack()
+            # print(result)
             self.complete_place = rc.ResultController().get_current_rating(self.complete_place.place.place_id
                                                                            , self.complete_place)
             self.rank_label.config(text=self.complete_place.rating)
+            try:
+                self.save_first_msg.pack_forget()
+                self.select_msg.pack_forget()
+            except:
+                pass
+            self.thanks_msg.pack()
+        elif self.get_rank() and not place_exist:
+            try:
+                self.thanks_msg.pack_forget()
+                self.select_msg.pack_forget()
+            except:
+                pass
+            self.save_first_msg.pack()
         else:
-            ovb.create_msg(self, 200, 450, 'please select a rank first between 1-10')
+            try:
+                self.save_first_msg.pack_forget()
+                self.thanks_msg.pack_forget()
+            except:
+                pass
+            self.select_msg.pack()
 
     def open_map(self, controller, coordinates):
         request = "http://maps.google.com/maps?q="
@@ -209,5 +239,6 @@ class ResultPage(tk.Frame):
 
     def get_rank(self):
         return self.user_rank.get()
+
 
 
