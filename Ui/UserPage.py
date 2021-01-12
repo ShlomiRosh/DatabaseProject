@@ -87,7 +87,7 @@ class UserPage(tk.Frame):
 
 
     def double_places_button(self, controller):
-        if self.check_places(570):
+        if self.check_places(410):
             controller.manage_frame(dpp.DoublePlacesPage)
 
 
